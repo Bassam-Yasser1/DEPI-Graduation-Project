@@ -1,8 +1,10 @@
 import 'package:depi_graduation_project/features/auth/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/utilities/app_text_style.dart';
+import '../../../../../core/utilities/app_colors.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -18,12 +20,12 @@ class HomePage extends GetView<HomeController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Explore',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 30.sp,
                     ),
                   ),
                   Container(
@@ -42,13 +44,13 @@ class HomePage extends GetView<HomeController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               Card(
                 elevation: 1,
                 shadowColor: Colors.white,
                 child: buildSearch(),
               ),
-              const SizedBox(height: 15),
+              const Gap(15),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -86,7 +88,7 @@ class HomePage extends GetView<HomeController> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            color: isSelected ? Colors.deepOrangeAccent : Colors.grey.shade300,
+            color: isSelected ? AppColors.main : Colors.grey.shade300,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
@@ -101,7 +103,7 @@ class HomePage extends GetView<HomeController> {
                               IconData,
                               color: isSelected ? Colors.white : Colors.black,
                             ),
-                            const SizedBox(width: 10),
+                            const Gap(10),
                           ],
                         )
                       : const SizedBox.shrink(),
@@ -109,7 +111,7 @@ class HomePage extends GetView<HomeController> {
                     label,
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.black,
-                      fontSize: 20,
+                      fontSize: 20.sp,
                     ),
                   ),
                 ],
@@ -131,12 +133,12 @@ class HomePage extends GetView<HomeController> {
           },
           icon: Icon(
             Icons.search,
-            color: Colors.deepOrangeAccent.shade200,
+            color: AppColors.main.withAlpha(200),
             size: 27,
           ),
         ),
         hintText: 'Search for attractions...',
-        hintStyle: const TextStyle(color: Colors.grey, fontSize: 17),
+        hintStyle:  TextStyle(color: Colors.grey, fontSize: 17.sp),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(

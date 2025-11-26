@@ -1,52 +1,57 @@
+import 'package:depi_graduation_project/core/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 abstract class Validator {
-
-  static Widget buildUserNameField(TextEditingController controller, String mass) {
+  static Widget buildUserNameField(
+    TextEditingController controller,
+    String mass,
+  ) {
     return TextFormField(
-      validator: (value){
-        if(value==null||value.trim().isEmpty){
-          return '$mass cannot be empty' ;
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return '$mass cannot be empty';
         }
         return null;
       },
-      style: const TextStyle(color: Colors.deepOrangeAccent),
+      style: const TextStyle(color: AppColors.main),
       controller: controller,
       decoration: InputDecoration(
         hintText: mass,
-        hintStyle:const TextStyle(color: Colors.deepOrangeAccent) ,
+        hintStyle: const TextStyle(color: AppColors.main),
         fillColor: Colors.grey.shade200,
         filled: true,
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide:const BorderSide(color:Colors.deepOrangeAccent,
-                width: 2.5)
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.main, width: 2.5),
         ),
       ),
     );
   }
 
-
-  static Widget buildPasswordField(TextEditingController controller, String mass,RxBool see) {
-
+  static Widget buildPasswordField(
+    TextEditingController controller,
+    String mass,
+    RxBool see,
+  ) {
     return Obx(() {
       return TextFormField(
-
-        validator: (value){
-          if(value==null||value.trim().isEmpty){
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
             return '$mass cannot be empty';
-          }if(value.length<8){
+          }
+          if (value.length < 8) {
             return 'Password must be at least 8 characters';
-          }if (!RegExp(r'^(?=.*[A-Z])').hasMatch(value)) {
+          }
+          if (!RegExp(r'^(?=.*[A-Z])').hasMatch(value)) {
             return 'Password must contain at least one uppercase letter';
           }
           if (!RegExp(r'^(?=.*\d)').hasMatch(value)) {
@@ -54,71 +59,70 @@ abstract class Validator {
           }
           return null;
         },
-        style:const TextStyle(color: Colors.deepOrangeAccent),
+        style: const TextStyle(color: AppColors.main),
         obscureText: see.value,
         controller: controller,
         decoration: InputDecoration(
-          suffixIcon: IconButton(onPressed: () {
-            see.toggle();
-          },
-              icon: see.value ? const Icon(Icons.visibility,color: Colors.deepOrangeAccent,) :const Icon(
-                  Icons.visibility_off,color: Colors.deepOrangeAccent)),
+          suffixIcon: IconButton(
+            onPressed: () {
+              see.toggle();
+            },
+            icon: see.value
+                ? const Icon(Icons.visibility, color: AppColors.main)
+                : const Icon(Icons.visibility_off, color: AppColors.main),
+          ),
           hintText: mass,
-          hintStyle:const TextStyle(color: Colors.deepOrangeAccent) ,
+          hintStyle: const TextStyle(color: AppColors.main),
           fillColor: Colors.grey.shade200,
           filled: true,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide:const BorderSide(color: Colors.deepOrangeAccent,
-                  width: 2.5)
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.main, width: 2.5),
           ),
         ),
       );
     });
   }
 
-
-  static Widget buildGmailField(TextEditingController controller, String mass ) {
+  static Widget buildGmailField(TextEditingController controller, String mass) {
     return TextFormField(
-      validator: (value){
-        if(value==null||value.trim().isEmpty){
-          return '$mass cannot be empty' ;
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return '$mass cannot be empty';
         }
-        if(!GetUtils.isEmail(value.trim())){
+        if (!GetUtils.isEmail(value.trim())) {
           return 'Enter a valid email';
         }
         return null;
       },
-      style:const TextStyle(color: Colors.deepOrangeAccent),
+      style: const TextStyle(color: AppColors.main),
       controller: controller,
       decoration: InputDecoration(
         hintText: mass,
-        hintStyle:const TextStyle(color: Colors.deepOrangeAccent) ,
+        hintStyle: const TextStyle(color: AppColors.main),
         fillColor: Colors.grey.shade200,
         filled: true,
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide:const BorderSide(color: Colors.grey,
-                width: 2.5)
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey, width: 2.5),
         ),
       ),
     );
   }
-
 }
