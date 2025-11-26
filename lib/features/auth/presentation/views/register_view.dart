@@ -1,4 +1,4 @@
-import 'package:depi_graduation_project/features/auth/presentation/views/register_controller.dart';
+import 'package:depi_graduation_project/features/auth/controllers/register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
