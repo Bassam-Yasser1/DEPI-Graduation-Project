@@ -83,7 +83,7 @@ class LoginView extends GetView<LoginController> {
                       AppButton(
                         onPressed: () {
                           if (controller.formKey.currentState!.validate()) {
-                            // code Auth
+                            //! code Auth
                           }
                         },
 

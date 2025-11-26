@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 
 import '../../../../core/utilities/app_colors.dart';
 
-class HomePage extends GetView<HomeController> {
-  const HomePage({super.key});
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +138,7 @@ class HomePage extends GetView<HomeController> {
           ),
         ),
         hintText: 'Search for attractions...',
-        hintStyle:  TextStyle(color: Colors.grey, fontSize: 17.sp),
+        hintStyle: TextStyle(color: Colors.grey, fontSize: 17.sp),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
