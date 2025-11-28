@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:depi_graduation_project/core/database/models/favorites.dart';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
@@ -10,6 +11,7 @@ import 'package:depi_graduation_project/features/auth/presentation/views/registe
 import 'package:depi_graduation_project/features/auth/supabase_services/auth_service.dart';
 import 'package:depi_graduation_project/features/details/controllers/details_controller.dart';
 import 'package:depi_graduation_project/features/details/presentation/view/details_view.dart';
+import 'package:depi_graduation_project/features/favourite/controller/favourite_controller.dart';
 import 'package:depi_graduation_project/features/favourite/presentation/views/favourites_view.dart';
 import 'package:depi_graduation_project/features/home/controllers/home_controller.dart';
 import 'package:depi_graduation_project/features/home/presentation/views/home_view.dart';
@@ -122,6 +124,9 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: Routes.favourites,
               page: () => const FavouritesView(),
+              binding: BindingsBuilder((){
+                Get.lazyPut(() => FavouritesController());
+              })
             ),
           ],
         );
