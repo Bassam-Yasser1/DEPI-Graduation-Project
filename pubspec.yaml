@@ -38,9 +38,14 @@ dependencies:
   geolocator: ^14.0.2
   get: ^4.7.3
   flutter_svg: ^2.1.1
+  floor: ^1.5.0
+  path_provider: ^2.1.5
+  shared_preferences: ^2.5.3
   persistent_bottom_nav_bar_v2: ^6.2.0
 
 dev_dependencies:
+  build_runner: ^2.4.13
+  floor_generator: ^1.5.0
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
@@ -57,6 +62,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/images/
+   - assets/database/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
