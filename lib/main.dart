@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:depi_graduation_project/core/database/models/favorites.dart';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
