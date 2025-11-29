@@ -1,16 +1,14 @@
-class Favorite {
-  final int? favId;
+class FavoriteSupabase {
   final String userId;
-  final String? placeId;
+  final int? placeId;
   final String? name;
   final double? lat;
   final double? lng;
   final int? addedAt;
   final String? image;
-  final String? description;
+  final String? desc;
 
-  Favorite({
-    this.favId,
+  FavoriteSupabase({
     required this.userId,
     this.placeId,
     this.name,
@@ -18,12 +16,11 @@ class Favorite {
     this.lng,
     this.addedAt,
     this.image,
-    this.description,
+    this.desc,
   });
 
-  factory Favorite.fromJson(Map<String, dynamic> json) {
-    return Favorite(
-      favId: json['fav_id'],
+  factory FavoriteSupabase.fromJson(Map<String, dynamic> json) {
+    return FavoriteSupabase(
       userId: json['user_id'],
       placeId: json['place_id'],
       name: json['name'],
@@ -31,13 +28,12 @@ class Favorite {
       lng: json['lng'],
       addedAt: json['added_at'],
       image: json['image'],
-      description: json['description'],
+      desc: json['desc'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'fav_id': favId,
       'user_id': userId,
       'place_id': placeId,
       'name': name,
@@ -45,7 +41,7 @@ class Favorite {
       'lng': lng,
       'added_at': addedAt,
       'image': image,
-      'description': description,
+      'desc': desc,
     };
   }
 }

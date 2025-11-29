@@ -1,3 +1,4 @@
+import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_colors.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/features/details/controllers/details_controller.dart';
@@ -11,8 +12,6 @@ class DetailsView extends GetView<DetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.place = Get.arguments;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -62,9 +61,23 @@ class DetailsView extends GetView<DetailsController> {
                           child: Obx(() {
                             return IconButton(
                               onPressed: () async {
-                                bool newValue = !controller.favorite.value;   // القيمة الجديدة
-                                controller.favorite.value = newValue;         // غيّر شكل القلب فوراً
-                                controller.onFavPressed(newValue);// سيب الكنترولر ينتظر 3 ثواني
+                                // if (controller.favorite.value) {
+                                //   controller.removeFromFav();
+                                // } else {
+                                //   controller.addToFav();
+                                // }
+                                // controller.favorite.toggle();
+                                try {
+                                  if (controller.favorite.value) {
+                                    await controller.removeFromFav();
+                                  } else {
+                                    await controller.addToFav();
+                                  }
+
+                                  controller.favorite.toggle();
+                                } catch (e) {
+                                  showSnackBar(context, e.toString());
+                                }
                               },
                               icon: controller.favorite.value
                                   ? const Icon(
