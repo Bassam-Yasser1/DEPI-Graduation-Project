@@ -1,20 +1,19 @@
 import 'dart:io';
 
+import 'package:depi_graduation_project/core/errors/app_exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../main.dart';
 import '../../../models/favorite_supabase.dart';
 
 class FavoritesService {
-  Future<String?> addFavorite(FavoriteSupabase fav) async {
+  Future<void> addFavorite(FavoriteSupabase fav) async {
     try {
       await cloud.from('favorites').insert(fav.toJson());
-      print('added done to supabase');
-      return null;
     } on PostgrestException catch (e) {
-      return e.message;
+      throw AppException(msg: e.message);
     } catch (e) {
-      return "Failed to add favorite";
+      throw AppException(msg: "Failed to add favorite");
     }
   }
 
@@ -55,7 +54,7 @@ class FavoritesService {
     return url; // يتحط فمكان ال image
   }
 
-  Future<String?> removeFavoriteByPlaceId(int placeId, String userId) async {
+  Future<void> removeFavoriteByPlaceId(int placeId, String userId) async {
     try {
       await cloud
           .from('favorites')
@@ -63,12 +62,10 @@ class FavoritesService {
           .eq('place_id', placeId)
           .eq('user_id', userId);
       print("removed from supa");
-
-      return null;
     } on PostgrestException catch (e) {
-      return e.message;
+      throw AppException(msg: e.message);
     } catch (e) {
-      return "Failed to remove favorite";
+      throw AppException(msg: "Failed to remove favorite");
     }
   }
 }

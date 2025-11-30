@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:depi_graduation_project/core/errors/app_exception.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/favorite_service.dart';
 import 'package:depi_graduation_project/main.dart';
 import 'package:get/get.dart';
@@ -7,11 +8,16 @@ import '../../../core/database/models/favorites.dart';
 
 class FavouritesController extends GetxController {
   final allFavourits = [].obs; //علشان السوبا غير الفلور
-
+  final error = RxnString();
   @override
   void onInit() {
+    try {
+      loadData();
+    } on Exception catch (e) {
+      error.value = e.toString();
+    }
+
     super.onInit();
-    loadData();
   }
 
   // Future<void> loadData() async {
@@ -57,7 +63,7 @@ class FavouritesController extends GetxController {
         );
       }
     } catch (e) {
-      throw Exception("Failed to load favorites: $e");
+      throw AppException(msg: "Failed to load favorites");
     }
   }
 
@@ -84,23 +90,12 @@ class FavouritesController extends GetxController {
   //   allFavourits.removeWhere((f) => f.place_id == placeId);
   // }
   Future<void> removeFavorite(int placeId) async {
-    try {
-      final userId = cloud.auth.currentUser!.id;
+    final userId = cloud.auth.currentUser!.id;
 
-      await database.favoritedao.deleteFavorite(userId, placeId);
+    await database.favoritedao.deleteFavorite(userId, placeId);
 
-      final error = await FavoritesService().removeFavoriteByPlaceId(
-        placeId,
-        userId,
-      );
+    await FavoritesService().removeFavoriteByPlaceId(placeId, userId);
 
-      if (error != null) {
-        throw Exception(error);
-      }
-
-      allFavourits.removeWhere((f) => f.place_id == placeId);
-    } catch (e) {
-      rethrow;
-    }
+    allFavourits.removeWhere((f) => f.place_id == placeId);
   }
 }

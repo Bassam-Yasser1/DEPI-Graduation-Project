@@ -1,13 +1,10 @@
-// To parse this JSON data, do
-//
-//     final placeDetailsResponse = placeDetailsResponseFromJson(jsonString);
 
 class PlaceModel {
   final int placeId;
   final String title;
-  final List<Coordinate>? coordinates; // ممكن تكون null
+  final List<Coordinate>? coordinates; 
   final String? description;
-  final String? thumbnail; // ممكن تكون null
+  final String? thumbnail; 
 
   PlaceModel({
     required this.placeId,
