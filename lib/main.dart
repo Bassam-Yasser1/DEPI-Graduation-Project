@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
@@ -22,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sqflite/sqflite.dart';
+import 'core/services/notification_service.dart';
 import 'core/services/supabase_services/auth_service.dart';
 import 'core/utilities/routes.dart';
 
@@ -36,6 +39,11 @@ Future<void> main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwaXJsYW9reHhyZnR0aHhvZXdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwMTk2MTAsImV4cCI6MjA3OTU5NTYxMH0.rpqSSo8Swf5QEqbM6RfIvV5vtRbJOYUg5_MvCNHIheY',
   );
+  // Initialize Awesome Notifications
+  await NotificationService.initialize();
+
+  // Initialize Alarm Manager
+  await AndroidAlarmManager.initialize();
   runApp(const MyApp());
 }
 

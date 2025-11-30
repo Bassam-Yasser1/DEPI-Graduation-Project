@@ -25,25 +25,23 @@ class DetailsView extends GetView<DetailsController> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child:
-                        //  controller.place.thumbnail != null
-                        //     ? Image.network(
-                        //         controller.place.thumbnail!,
-                        //         width: double.infinity,
-                        //         height: 350,
-                        //         fit: BoxFit.cover,
-                        //       )
-                        //     :
-                        Container(
-                          width: double.infinity,
-                          height: 300,
-                          color: Colors.grey[300],
-                          child: const Icon(
-                            Icons.image_not_supported,
-                            size: 50,
-                            color: Colors.grey,
+                    child: controller.place.thumbnail != null
+                        ? Image.network(
+                            controller.place.thumbnail!,
+                            width: double.infinity,
+                            height: 350,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 300,
+                            color: Colors.grey[300],
+                            child: const Icon(
+                              Icons.image_not_supported,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
                   ),
                   Positioned(
                     bottom: 8,

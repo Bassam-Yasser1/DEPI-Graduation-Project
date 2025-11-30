@@ -38,6 +38,8 @@ class DetailsController extends GetxController {
       lng: place.coordinates?[0].lon,
     );
     await FavoritesService().addFavorite(favoriteSupa);
+    // await FavoritesService().addFavorite(addFavorite);
+
     await database.favoritedao.insertFavorite(addFavorite);
 
     try {
