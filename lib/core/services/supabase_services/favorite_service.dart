@@ -24,10 +24,15 @@ class FavoritesService {
 
     final res = await cloud.from('favorites').select().eq('user_id', userId);
 
-    return res.map<FavoriteSupabase>((e) => FavoriteSupabase.fromJson(e)).toList();
+    return res
+        .map<FavoriteSupabase>((e) => FavoriteSupabase.fromJson(e))
+        .toList();
   }
 
-  Future<FavoriteSupabase?> getFavoriteByPlaceId(int placeId, String userId) async {
+  Future<FavoriteSupabase?> getFavoriteByPlaceId(
+    int placeId,
+    String userId,
+  ) async {
     final res = await cloud
         .from('favorites')
         .select()
@@ -58,6 +63,7 @@ class FavoritesService {
           .delete()
           .eq('place_id', placeId)
           .eq('user_id', userId);
+      print("removed from supa");
 
       return null;
     } on PostgrestException catch (e) {
