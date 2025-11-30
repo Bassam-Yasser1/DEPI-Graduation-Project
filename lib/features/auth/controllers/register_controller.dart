@@ -4,6 +4,7 @@ import 'package:depi_graduation_project/core/services/supabase_services/auth_ser
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/services/supabase_services/auth_service.dart';
 import '../../../core/utilities/routes.dart';
 
 class RegisterController extends GetxController {
