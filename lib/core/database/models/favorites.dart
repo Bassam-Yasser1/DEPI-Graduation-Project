@@ -1,8 +1,6 @@
 import 'package:floor/floor.dart';
 
-@Entity(
-  tableName: 'favorites',
-)
+@Entity(tableName: 'favorites')
 class Favorite {
   @PrimaryKey(autoGenerate: true)
   final int? fav_id;
@@ -15,12 +13,8 @@ class Favorite {
   final String? desc;
   final String? category;
 
-
   final double? lat;
   final double? lng;
-
-
-
 
   Favorite({
     this.fav_id,
