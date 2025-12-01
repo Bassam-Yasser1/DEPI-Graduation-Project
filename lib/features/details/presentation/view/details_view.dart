@@ -26,14 +26,14 @@ class DetailsView extends GetView<DetailsController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child:
-                        //  controller.place.thumbnail != null
-                        //     ? Image.network(
-                        //         controller.place.thumbnail!,
-                        //         width: double.infinity,
-                        //         height: 350,
-                        //         fit: BoxFit.cover,
-                        //       )
-                        //     :
+                         controller.place.thumbnail != null
+                            ? Image.network(
+                                controller.place.thumbnail!,
+                                width: double.infinity,
+                                height: 350,
+                                fit: BoxFit.cover,
+                              )
+                            :
                         Container(
                           width: double.infinity,
                           height: 300,

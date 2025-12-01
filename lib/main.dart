@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
+import 'package:depi_graduation_project/core/services/api_services/geoapify_services.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
 import 'package:depi_graduation_project/features/auth/controllers/login_controller.dart';
 import 'package:depi_graduation_project/features/auth/controllers/register_controller.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
           initialRoute: AuthService().isLogin() ? Routes.main : Routes.login,
           initialBinding: BindingsBuilder(() {
             Get.lazyPut(() => ApiServices());
+            Get.lazyPut(() => GeoapifyService());
             Get.lazyPut(() => HomeController(), fenix: true); // <- سجّله هنا
           }),
           getPages: [
