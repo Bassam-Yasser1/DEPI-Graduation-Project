@@ -30,7 +30,10 @@ import 'core/utilities/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
   await copyDatabase();
 
   database = await $FloortourDatabase.databaseBuilder('tourAppDB.db').build();
