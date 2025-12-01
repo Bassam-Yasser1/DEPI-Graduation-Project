@@ -26,14 +26,14 @@ class DetailsView extends GetView<DetailsController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child:
-                        //  controller.place.thumbnail != null
-                        //     ? Image.network(
-                        //         controller.place.thumbnail!,
-                        //         width: double.infinity,
-                        //         height: 350,
-                        //         fit: BoxFit.cover,
-                        //       )
-                        //     :
+                       controller.place.thumbnail != null
+                          ? Image.network(
+                              controller.place.thumbnail!,
+                              width: double.infinity,
+                              height: 350,
+                              fit: BoxFit.cover,
+                            )
+                          :
                         Container(
                           width: double.infinity,
                           height: 300,
@@ -125,29 +125,42 @@ class DetailsView extends GetView<DetailsController> {
               const Gap(18),
               const Divider(),
               const Gap(50),
-
-              Center(
-                child: SizedBox(
-                  height: 50,
-                  width: 250,
-                  child: AppButton(
-                    child: Text(
-                      'Open Location',
-                      style: AppTextStyle.regular18.copyWith(
-                        color: Colors.white,
-                      ),
-                    ),
-
-                    onPressed: () async {
-                      await launchUrl(
-                        mode: LaunchMode.externalApplication,
-                        Uri.parse(
-                          "https://www.google.com/maps/search/?api=1&query=${controller.place.coordinates![0].lat},${controller.place.coordinates![0].lon}",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 260,
+                    child: AppButton(
+                      child: Text(
+                        'Open Location',
+                        style: AppTextStyle.regular18.copyWith(
+                          color: Colors.white,
                         ),
-                      );
-                    },
+                      ),
+                      onPressed: () async {
+                        await launchUrl(
+                          mode: LaunchMode.externalApplication,
+                          Uri.parse(
+                            "https://www.google.com/maps/search/?api=1&query=${controller.place.coordinates![0].lat},${controller.place.coordinates![0].lon}",
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    height: 50,
+                    width: 70,
+                    child: ElevatedButton(onPressed: (){
+
+                    },style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)
+                      )
+                    ), child: Icon(Icons.calendar_month,color: Colors.black,size: 25,))
+                  ),
+                ],
               ),
             ],
           ),

@@ -14,7 +14,9 @@ import 'package:depi_graduation_project/features/favourite/presentation/views/fa
 import 'package:depi_graduation_project/features/home/controllers/home_controller.dart';
 import 'package:depi_graduation_project/features/home/presentation/views/home_view.dart';
 import 'package:depi_graduation_project/features/main/main_view.dart';
+import 'package:depi_graduation_project/features/profile/controllers/profile_controller.dart';
 import 'package:depi_graduation_project/features/profile/presentation/views/profile_view.dart';
+import 'package:depi_graduation_project/features/search/presentation/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +26,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'core/services/supabase_services/auth_service.dart';
 import 'core/utilities/routes.dart';
+import 'features/search/search_controller/search_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -118,13 +121,26 @@ class MyApp extends StatelessWidget {
                 Get.lazyPut(() => DetailsController());
               }),
             ),
-            GetPage(name: Routes.profile, page: () => const ProfileView()),
+            GetPage(
+              name: Routes.profile,
+              page: () => const ProfileView(),
+              binding: BindingsBuilder((){
+                Get.lazyPut(()=>ProfileController());
+              })
+            ),
             GetPage(name: Routes.main, page: () => const MainView()),
             GetPage(
               name: Routes.favourites,
               page: () => const FavouritesView(),
               binding: BindingsBuilder(() {
                 Get.lazyPut(() => FavouritesController());
+              }),
+            ),
+            GetPage(
+              name: Routes.search,
+              page: () => const SearchView(),
+              binding: BindingsBuilder(() {
+                Get.lazyPut(() => searchController());
               }),
             ),
           ],

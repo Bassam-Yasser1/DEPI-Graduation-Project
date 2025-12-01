@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 import '../favourite/controller/favourite_controller.dart';
+import '../profile/controllers/profile_controller.dart';
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -61,7 +62,15 @@ List<PersistentTabConfig> _tabs() => [
     ),
   ),
   PersistentTabConfig(
-    screen: const ProfileView(),
+    screen:Builder(
+      builder: (_) {
+        // Ensure the controller is initialized
+        if (!Get.isRegistered<FavouritesController>()) {
+          Get.put(ProfileController());
+        }
+        return const ProfileView();
+      },
+    ),
     item: ItemConfig(
       icon: const Icon(Icons.person),
       title: 'Profile',

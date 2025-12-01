@@ -16,20 +16,22 @@ class HomeController extends GetxController {
   final places = <PlaceModel>[].obs;
   final museums = <PlaceModel>[].obs;
   final restaurant = <PlaceModel>[].obs;
-  final keywords = [
-    "mosque",
-    "museum",
-    "park",
-    "temple",
-    "pyramid",
-    "fort",
-    "castle",
-    "citadel",
-    "historical",
-    "archaeological",
-    "landmark",
-    "tourist",
-  ];
+  // final keywords = [
+  //   "sphinx"
+  //   "ancient"
+  //   "mosque",
+  //   "museum",
+  //   "park",
+  //   "temple",
+  //   "pyramid",
+  //   "fort",
+  //   "castle",
+  //   "citadel",
+  //   "historical",
+  //   "archaeological",
+  //   "landmark",
+  //   "tourist",
+  // ];
 
   final api = Get.find<ApiServices>();
   @override
@@ -46,15 +48,21 @@ class HomeController extends GetxController {
       long: 31.134202,
     );
     places.value =
+
         data?.where((p) {
-          final title = p.title.toLowerCase();
-          final desc = p.description?.toLowerCase() ?? "";
-          return keywords.any((k) {
-            final key = k.toLowerCase();
-            return title.contains(key) || desc.contains(key);
-          });
-        }).toList() ??
-        [];
+
+      if (p.description == null || p.description!.trim().isEmpty) {
+        return false;
+      }
+
+      return true;
+      // final title = p.title.toLowerCase();
+      // final desc = p.description!.toLowerCase();
+      // return keywords.any((k) {
+      //   final key = k.toLowerCase();
+      //   return title.toLowerCase().contains(key) || desc.toLowerCase().contains(key);
+      // });
+    }).toList() ?? [];
 
     final regionId = await database.regionrequestdao.insertRegionRequest(
       RegionRequest(lat: 29.979235, lng: 31.134202),

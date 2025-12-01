@@ -19,11 +19,10 @@ class PlaceModel {
     title: json["title"],
     coordinates: json["coordinates"] != null
         ? List<Coordinate>.from(
-            json["coordinates"].map((x) => Coordinate.fromJson(x)),
-          )
+      json["coordinates"].map((x) => Coordinate.fromJson(x)),
+    )
         : null,
-    thumbnail: json["thumbnail"]['source'],
-
+    thumbnail: json["thumbnail"] != null ? json["thumbnail"]['source'] : null,
     description: json["description"],
   );
 }
