@@ -13,14 +13,9 @@ class DetailsController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    place = Get.arguments;
-    if (pendingFavorite != null) {
-      favorite.value = pendingFavorite!;
-    } else {
-      // غير كده، جيب القيمة الحقيقية من الداتا بيز
-      favorite.value = await isFavorite();
-    }
     super.onInit();
+    place = Get.arguments;
+    favorite.value = await isFavorite();
   }
 
   Future<void> addToFav() async {
@@ -60,28 +55,4 @@ class DetailsController extends GetxController {
 
   }
 
-
-  Timer? t;
-  bool? pendingFavorite; // القيمة المنتظرة
-
-  void onFavPressed(bool isFav) {
-    // احفظ القيمة المؤقتة
-    pendingFavorite = isFav;
-
-    // غيّر UI فورًا
-    favorite.value = isFav;
-
-    // الغي أي تايمر شغال
-    t?.cancel();
-
-    // عمل تايمر جديد
-    t = Timer(Duration(seconds: 1), () async {
-      if (pendingFavorite == true) {
-        await addToFav();
-      } else {
-        await removeFromFav();
-      }
-      pendingFavorite = null;
-    });
-  }
 }
