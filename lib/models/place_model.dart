@@ -1,27 +1,39 @@
 class PlaceModel {
+  final int placeId;
   final String name;
-  final String disc;
-  final String? img;
-  final int long;
-  final int lat;
-  final double rate;
+  final String? desc;
+  final String? image;
+  final double? lat;
+  final double? lng;
 
   PlaceModel({
+    this.lat,
+    this.lng,
+    required this.placeId,
     required this.name,
-    required this.disc,
-    this.img,
-    required this.long,
-    required this.lat,
-    required this.rate,
+    this.image,
+    this.desc,
   });
 
-  factory PlaceModel.fromjson(Map<String, dynamic> json) {
+  factory PlaceModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    print(
+      '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++',
+    );
     return PlaceModel(
-      name: json["properties"]['name'],
-      disc: 'fghdjhjdfgsjkldfsjklfdsjkldfsjkldfjklsfdjklsdfjklsjdfklsfsdklsdkl',
-      long: json["properties"]['lon'],
-      lat: json["properties"]['lat'],
-      rate: 3.2,
+      placeId: json["pageid"],
+      name: json["title"],
+
+      lat: json["coordinates"] != null
+          ? json["coordinates"][0]["lat"]?.toDouble()
+          : null,
+      lng: json["coordinates"] != null
+          ? json["coordinates"][0]["lon"]?.toDouble()
+          : null,
+
+      image: json["thumbnail"] != null ? json["thumbnail"]['source'] : null,
+
+      desc: json["description"],
     );
   }
 }

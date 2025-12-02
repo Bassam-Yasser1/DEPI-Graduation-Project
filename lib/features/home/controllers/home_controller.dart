@@ -1,6 +1,6 @@
 import 'package:depi_graduation_project/core/database/models/region_places.dart';
 import 'package:depi_graduation_project/core/database/models/region_requests.dart';
-import 'package:depi_graduation_project/core/services/api_services/place_details_response.dart';
+import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:depi_graduation_project/main.dart';
 import 'package:flutter/cupertino.dart' hide Page;
 import 'package:geolocator/geolocator.dart';
@@ -13,23 +13,25 @@ class HomeController extends GetxController {
   final selectedCard = 1.obs;
   final position = Rxn<Position>();
 
-  final places = <Page>[].obs;
-  final museums = <Page>[].obs;
-  final restaurant = <Page>[].obs;
-  final keywords = [
-    "mosque",
-    "museum",
-    "park",
-    "temple",
-    "pyramid",
-    "fort",
-    "castle",
-    "citadel",
-    "historical",
-    "archaeological",
-    "landmark",
-    "tourist",
-  ];
+  final places = <PlaceModel>[].obs;
+  final museums = <PlaceModel>[].obs;
+  final restaurant = <PlaceModel>[].obs;
+  // final keywords = [
+  //   "sphinx"
+  //   "ancient"
+  //   "mosque",
+  //   "museum",
+  //   "park",
+  //   "temple",
+  //   "pyramid",
+  //   "fort",
+  //   "castle",
+  //   "citadel",
+  //   "historical",
+  //   "archaeological",
+  //   "landmark",
+  //   "tourist",
+  // ];
 
   final api = Get.find<ApiServices>();
   @override
@@ -47,15 +49,19 @@ class HomeController extends GetxController {
     );
     places.value =
         data?.where((p) {
-          final title = p.title.toLowerCase();
-          final desc = p.description?.toLowerCase() ?? "";
-          return keywords.any((k) {
-            final key = k.toLowerCase();
-            return title.contains(key) || desc.contains(key);
-          });
+          if (p.desc == null || p.desc!.trim().isEmpty) {
+            return false;
+          }
+
+          return true;
+          // final title = p.title.toLowerCase();
+          // final desc = p.description!.toLowerCase();
+          // return keywords.any((k) {
+          //   final key = k.toLowerCase();
+          //   return title.toLowerCase().contains(key) || desc.toLowerCase().contains(key);
+          // });
         }).toList() ??
         [];
-
 
     final regionId = await database.regionrequestdao.insertRegionRequest(
       RegionRequest(lat: 29.979235, lng: 31.134202),
@@ -66,13 +72,12 @@ class HomeController extends GetxController {
       list.add(
         RegionPlace(
           region_id: regionId,
-          place_id: element.pageid.toString(),
-          lat: element.coordinates![0].lat,
-          lng: element.coordinates![0].lon,
+          place_id: element.placeId.toString(),
+          lat: element.lat,
+          lng: element.lng,
         ),
       );
     }
     await database.regionplacedao.insertRespPlaces(list);
   }
 }
-

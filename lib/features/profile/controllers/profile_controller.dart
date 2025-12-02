@@ -1,24 +1,32 @@
 import 'package:get/get.dart';
-import '../../auth/supabase_services/auth_service.dart';
+
+import '../../../core/services/supabase_services/auth_service.dart';
 
 class ProfileController extends GetxController {
   final AuthService _authService = AuthService();
 
   final fullName = ''.obs;
-  final email = ''.obs;
+  final themesICon=true.obs;
 
   @override
   void onInit() {
     super.onInit();
     loadUserName();
-    loadEmail();
   }
+
 
   Future<void> loadUserName() async {
     fullName.value = await _authService.getCurrentUserFullName();
   }
 
-  Future<void> loadEmail() async {
-    email.value = (await _authService.getCurrentEmail())!;
+  String splitName(String name) {
+    if (name.isEmpty) return "";
+    List<String> parts = name.trim().split(" ");
+
+    if (parts.isEmpty) return "";
+    if (parts.length == 1) {
+      return parts[0][0].toUpperCase();
+    }
+    return parts[0][0].toUpperCase() + parts[1][0].toUpperCase();
   }
 }
