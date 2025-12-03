@@ -5,6 +5,8 @@ import 'package:depi_graduation_project/features/home/presentation/views/home_vi
 import 'package:depi_graduation_project/features/main/controller/main_controller.dart';
 import 'package:depi_graduation_project/features/profile/controllers/profile_controller.dart';
 import 'package:depi_graduation_project/features/profile/presentation/views/profile_view.dart';
+import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
+import 'package:depi_graduation_project/features/schedule/presentation/view/schedule_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,7 +23,7 @@ class MainView extends GetView<MainController> {
       stateManagement: false,
 
       navBarBuilder: (navBarConfig) =>
-          Style6BottomNavBar(navBarConfig: navBarConfig),
+          Style1BottomNavBar(navBarConfig: navBarConfig),
       onTabChanged: (value) {
         if (value == 1) {
           controller.isFavPage = true;
@@ -99,6 +101,23 @@ class MainView extends GetView<MainController> {
           item: ItemConfig(
             icon: const Icon(Icons.person),
             title: 'Profile',
+            activeForegroundColor: AppColors.main,
+            inactiveForegroundColor: Colors.grey,
+          ),
+        ),
+        PersistentTabConfig(
+          screen: Builder(
+            builder: (_) {
+              // Ensure the controller is initialized
+              if (!Get.isRegistered<ScheduleController>()) {
+                Get.put(ScheduleController());
+              }
+              return const ScheduleView();
+            },
+          ),
+          item: ItemConfig(
+            icon: const Icon(Icons.schedule),
+            title: 'Schedule',
             activeForegroundColor: AppColors.main,
             inactiveForegroundColor: Colors.grey,
           ),

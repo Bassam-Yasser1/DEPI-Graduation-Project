@@ -5,26 +5,38 @@ import 'package:floor/floor.dart';
 )
 class Schedule {
   @PrimaryKey(autoGenerate: true)
-  final int? schedule_id;
+  final int? scheduleId;
 
-  final String? place_id;
+  final int? placeId;
 
-  final String scheduled_at;
+  final String date;
+  final String hour;
   final String? note;
+  final String? name;
 
   final bool? isDone;
 
-  final int created_at;
+  final int? createdAt;
 
-  final String? user_id;
+  final String? userId;
+
+  final double? lat;
+  final double? lng;
+  final String image;
+
 
   Schedule({
-    this.schedule_id,
-    this.place_id,
-    required this.scheduled_at,
+    this.scheduleId,
+    this.placeId,
+    required this.date,
     this.note,
     this.isDone,
-    required this.created_at,
-    this.user_id
+     this.createdAt,
+    this.userId,
+    this.name,
+    this.lat,
+    this.lng,
+    required this.image,
+    required this.hour,
   });
 }
