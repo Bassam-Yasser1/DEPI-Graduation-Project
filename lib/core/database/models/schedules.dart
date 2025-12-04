@@ -1,42 +1,23 @@
+import 'package:depi_graduation_project/models/schedule_model.dart';
 import 'package:floor/floor.dart';
 
-@Entity(
-  tableName: 'schedules',
-)
-class Schedule {
+@Entity(tableName: 'schedules')
+class Schedule extends ScheduleModel {
   @PrimaryKey(autoGenerate: true)
   final int? scheduleId;
 
-  final int? placeId;
-
-  final String date;
-  final String hour;
-  final String? note;
-  final String? name;
-
-  final bool? isDone;
-
-  final int? createdAt;
-
-  final String? userId;
-
-  final double? lat;
-  final double? lng;
-  final String? image;
-
-
   Schedule({
     this.scheduleId,
-    this.placeId,
-    required this.date,
-    this.note,
-    this.isDone,
-     this.createdAt,
-    this.userId,
-    this.name,
-    this.lat,
-    this.lng,
-    required this.image,
-    required this.hour,
+    super.placeId,
+    required super.date,
+    required super.note,
+    super.isDone,
+    super.createdAt,
+    super.userId,
+    super.name,
+    super.lat,
+    super.lng,
+    required super.image,
+    required super.hour,
   });
 }
