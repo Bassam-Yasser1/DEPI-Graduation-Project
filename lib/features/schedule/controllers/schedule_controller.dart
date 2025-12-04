@@ -1,11 +1,10 @@
-
 import 'package:get/get.dart';
 
 import '../../../core/database/models/schedules.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../main.dart';
 
-class ScheduleController extends GetxController{
+class ScheduleController extends GetxController {
   final allSchedules = <Schedule>[].obs;
   final error = RxnString();
   final selectedCard = 1.obs;
@@ -13,29 +12,26 @@ class ScheduleController extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    try{
+    try {
       loadData();
-    }on Exception catch(e){
+    } on Exception catch (e) {
       error.value = e.toString();
     }
 
     super.onInit();
   }
 
-  Future<void>  loadData() async {
-    try{
+  Future<void> loadData() async {
+    try {
       final userId = cloud.auth.currentUser!.id;
       final localList = await database.scheduledao.selectSchedules(userId);
 
-      if(localList.isNotEmpty){
+      if (localList.isNotEmpty) {
         allSchedules.value = localList;
         return;
       }
-      }
-    catch(e){
+    } catch (e) {
       throw AppException(msg: "Failed to load schedules");
     }
-
   }
-
 }

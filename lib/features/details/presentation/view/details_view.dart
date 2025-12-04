@@ -1,24 +1,22 @@
-import 'dart:ui';
+
 
 import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_colors.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/core/widgets/app_button.dart';
 import 'package:depi_graduation_project/features/details/controllers/details_controller.dart';
-import 'package:depi_graduation_project/features/details/presentation/view/schedule_bottom_sheet.dart';
+import 'package:depi_graduation_project/features/details/presentation/view/widgets/schedule_form.dart';
 import 'package:flutter/material.dart' hide Page;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class DetailsView extends GetView<DetailsController> {
   const DetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -74,7 +72,7 @@ class DetailsView extends GetView<DetailsController> {
                                 } else {
                                   await controller.addToFav();
                                 }
-            
+
                                 controller.favorite.toggle();
                               } catch (e) {
                                 showSnackBar(context, e.toString());
@@ -129,7 +127,7 @@ class DetailsView extends GetView<DetailsController> {
                 const Gap(18),
                 const Divider(),
                 const Gap(50),
-            
+
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -158,28 +156,42 @@ class DetailsView extends GetView<DetailsController> {
                       const Gap(8),
 
                       SizedBox(
-                          height: 50,
-                          width: 70,
-                          child: ElevatedButton(onPressed: (){
+                        height: 50,
+                        width: 70,
+                        child: ElevatedButton(
+                          onPressed: () {
                             showModalBottomSheet(
-                              context: context,
                               isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (_) => const ScheduleBottomSheet(),
-                            );
 
-                          },style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)
-                              )
-                          ), child: Icon(Icons.calendar_month,color: Colors.black,size: 25,))
+                              context: context,
+                              // backgroundColor: Colors.transparent,
+                              builder: (_) => Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: Get.mediaQuery.viewInsets.bottom,
+                                ),
+                                child: const ScheduleForm(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.calendar_month,
+                            color: Colors.black,
+                            size: 25,
+                          ),
+                        ),
                       ),
-                      ]
-                  )
+                    ],
+                  ),
                 ),
+
                 // const Gap(20),
-            
+
                 // Center(
                 //   child: SizedBox(
                 //     height: 50,
@@ -203,7 +215,6 @@ class DetailsView extends GetView<DetailsController> {
                 //     ),
                 //   ),
                 // ),
-            
               ],
             ),
           ),
@@ -212,4 +223,3 @@ class DetailsView extends GetView<DetailsController> {
     );
   }
 }
-

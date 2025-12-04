@@ -30,16 +30,7 @@ class MainView extends GetView<MainController> {
         print(value);
         if (value == 1) {
           controller.isFavPage = true;
-          // if (controller.favControoller.deleted.isNotEmpty) {
-          //   try {
-          //     controller.removeFavFromDB();
-          //     // controller.favControoller.deleted.clear();
-          //   } on AppException catch (e) {
-          //     showSnackBar(context, e.msg);
-          //   } catch (e) {
-          //     showSnackBar(context, e.toString());
-          //   }
-          // }
+     
         } else {
           if (controller.isFavPage &&
               controller.favControoller.deleted.isNotEmpty) {

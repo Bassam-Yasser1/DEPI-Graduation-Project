@@ -4,6 +4,7 @@ import 'package:depi_graduation_project/core/database/models/favorites.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/favorite_service.dart';
 import 'package:depi_graduation_project/main.dart';
 import 'package:depi_graduation_project/models/favorite_supabase.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../models/place_model.dart';
@@ -12,8 +13,11 @@ import '../../favourite/controller/favourite_controller.dart';
 class DetailsController extends GetxController {
   RxBool favorite = false.obs; // initialize here
   late PlaceModel place;
-
-
+  //? for schedule
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
+  final noteController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -108,5 +112,13 @@ class DetailsController extends GetxController {
 
     // لو ملقاش في الاتنين
     return false;
+  }
+
+  @override
+  void onClose() {
+    dateController.dispose();
+    timeController.dispose();
+    noteController.dispose();
+    super.onClose();
   }
 }
