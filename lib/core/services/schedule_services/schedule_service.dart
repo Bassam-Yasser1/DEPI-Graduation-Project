@@ -1,3 +1,59 @@
+// import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+// import 'package:depi_graduation_project/core/services/supabase_services/schedule_service_supabase.dart';
+// import 'package:depi_graduation_project/main.dart';
+// import 'package:depi_graduation_project/models/schedule_supabase.dart';
+//
+// import '../../database/models/schedules.dart';
+// import '../alarm_callback.dart';
+//
+// class ScheduleService {
+//   Future<void> createSchedule(Schedule schedule) async {
+//     // Schedule the alarm for the exact time
+//     final scheduledDate = DateTime.parse(schedule.date);
+//     final id = await database.scheduledao.insertSchedule(schedule);
+//     await ScheduleServiceSupabase().createSchedule(
+//       ScheduleSupabase(
+//         scheduleId: id,
+//         scheduledAt: scheduledDate,
+//         createdAt: schedule.createdAt!,
+//         placeId: schedule.placeId,
+//         userId: cloud.auth.currentUser?.id,
+//       ),
+//     );
+//
+//     await AndroidAlarmManager.oneShotAt(
+//       scheduledDate,
+//       id, // Use schedule_id as the unique alarm ID
+//       alarmCallbackWithId,
+//       exact: true,
+//       wakeup: true,
+//       rescheduleOnReboot: true,
+//     );
+//   }
+//
+//   Future<void> deleteSchedule(Schedule schedule) async {
+//     await database.scheduledao.deleteSchedule(schedule);
+//     await ScheduleServiceSupabase().deleteSchedule(schedule.scheduleId);
+//
+//     // Cancel the alarm
+//     await AndroidAlarmManager.cancel(schedule.scheduleId!);
+//   }
+//
+//   // Mark schedule as done
+//   Future<void> markAsDone(int id) async {
+//     await database.scheduledao.markAsDone(id);
+//     await ScheduleServiceSupabase().markAsDone(id);
+//   }
+//
+//   // Fetch schedules for a user
+//   Future<List<Schedule>> getSchedulesDB(String uid) async {
+//     return await database.scheduledao.selectSchedules(uid);
+//   }
+//
+//   Future<List<ScheduleSupabase>> getSchedulesSB(String uid) async {
+//     return await ScheduleServiceSupabase().getSchedules(uid);
+//   }
+// }
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/schedule_service_supabase.dart';
 import 'package:depi_graduation_project/main.dart';
@@ -8,22 +64,47 @@ import '../alarm_callback.dart';
 
 class ScheduleService {
   Future<void> createSchedule(Schedule schedule) async {
-    // Schedule the alarm for the exact time
-    final scheduledDate = DateTime.parse(schedule.date);
+    //
+    // 1️⃣ Convert date + hour → DateTime
+    //
+    // schedule.date = "2025-01-10"
+    // schedule.hour = "14:30"
+    //
+    final scheduledDate = DateTime.parse(
+      "${schedule.date} ${schedule.hour}:00", // add seconds to avoid parse error
+    );
+
+    //
+    // 2️⃣ Insert into local DB
+    //
     final id = await database.scheduledao.insertSchedule(schedule);
+
+    //
+    // 3️⃣ Insert into Supabase
+    //
     await ScheduleServiceSupabase().createSchedule(
       ScheduleSupabase(
         scheduleId: id,
-        scheduledAt: scheduledDate,
-        createdAt: schedule.createdAt!,
         placeId: schedule.placeId,
+        date: schedule.date,
+        hour: schedule.hour,
+        note: schedule.note,
+        isDone: schedule.isDone ?? false,
+        createdAt: schedule.createdAt!,
         userId: cloud.auth.currentUser?.id,
+        lat: schedule.lat,
+        lng: schedule.lng,
+        name: schedule.name ?? "",
+        image: schedule.image,
       ),
     );
 
+    //
+    // 4️⃣ Schedule alarm
+    //
     await AndroidAlarmManager.oneShotAt(
       scheduledDate,
-      id, // Use schedule_id as the unique alarm ID
+      id, // same as schedule_id
       alarmCallbackWithId,
       exact: true,
       wakeup: true,
@@ -31,6 +112,9 @@ class ScheduleService {
     );
   }
 
+  //
+  // Delete schedule
+  //
   Future<void> deleteSchedule(Schedule schedule) async {
     await database.scheduledao.deleteSchedule(schedule);
     await ScheduleServiceSupabase().deleteSchedule(schedule.scheduleId);
@@ -39,17 +123,24 @@ class ScheduleService {
     await AndroidAlarmManager.cancel(schedule.scheduleId!);
   }
 
+  //
   // Mark schedule as done
+  //
   Future<void> markAsDone(int id) async {
     await database.scheduledao.markAsDone(id);
     await ScheduleServiceSupabase().markAsDone(id);
   }
 
-  // Fetch schedules for a user
+  //
+  // Fetch schedules from local DB
+  //
   Future<List<Schedule>> getSchedulesDB(String uid) async {
     return await database.scheduledao.selectSchedules(uid);
   }
 
+  //
+  // Fetch schedules from Supabase
+  //
   Future<List<ScheduleSupabase>> getSchedulesSB(String uid) async {
     return await ScheduleServiceSupabase().getSchedules(uid);
   }

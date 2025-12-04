@@ -3,7 +3,7 @@ class ScheduleModel {
 
   final String date;
   final String hour;
-  final String note;
+  final String? note;
   final String? name;
 
   final bool? isDone;
@@ -19,7 +19,7 @@ class ScheduleModel {
   ScheduleModel({
     required this.placeId,
     required this.date,
-    required this.note,
+    this.note,
     this.isDone,
     this.createdAt,
     this.userId,

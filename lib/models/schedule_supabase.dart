@@ -1,45 +1,66 @@
-class ScheduleSupabase {
+import 'package:depi_graduation_project/models/schedule_model.dart';
+
+class ScheduleSupabase extends ScheduleModel {
   final int? scheduleId; // Supabase BIGSERIAL
-  final int placeId;
-  final DateTime scheduledAt;
-  final String? note;
-  final bool isDone;
-  final int createdAt; // milliseconds since epoch
-  final String? userId;
 
   ScheduleSupabase({
     this.scheduleId,
-    required this.placeId,
-    required this.scheduledAt,
-    this.note,
-    this.isDone = false,
-    required this.createdAt,
-    this.userId,
-  });
+    required int placeId,
+    required String date, // "2025-01-10"
+    required String hour, // "14:30"
+    required String? note,
+    required bool isDone,
+    required int createdAt,
+    required String? userId,
+    required double? lat,
+    required double? lng,
+    required String? image,
+    required String? name,
+  }) : super(
+         placeId: placeId,
+         date: date,
+         hour: hour,
+         name: name,
+         note: note,
+         isDone: isDone,
+         createdAt: createdAt,
+         userId: userId,
+         lat: lat,
+         lng: lng,
+         image: image,
+       );
 
-  // Convert from Supabase map to Schedule object
   factory ScheduleSupabase.fromMap(Map<String, dynamic> map) {
     return ScheduleSupabase(
       scheduleId: map['schedule_id'] as int?,
       placeId: map['place_id'] as int,
-      scheduledAt: DateTime.parse(map['scheduled_at'] as String),
+      date: map['date'] as String,
+      hour: map['hour'] as String,
       note: map['note'] as String?,
       isDone: map['is_done'] as bool? ?? false,
       createdAt: map['created_at'] as int,
       userId: map['user_id'] as String?,
+      lat: map['lat'] as double?,
+      lng: map['lng'] as double?,
+      image: map['image'] as String?,
+      name: map['name'] as String?,
     );
   }
 
-  // Convert Schedule object to map for Supabase insert/update
   Map<String, dynamic> toMap() {
     return {
       'schedule_id': scheduleId,
       'place_id': placeId,
-      'scheduled_at': scheduledAt.toIso8601String(),
+      'date': date,
+      'hour': hour,
       'note': note,
       'is_done': isDone,
       'created_at': createdAt,
       'user_id': userId,
+      'lat': lat,
+      'lng': lng,
+      'image': image,
+      'name': name,
     };
   }
 }

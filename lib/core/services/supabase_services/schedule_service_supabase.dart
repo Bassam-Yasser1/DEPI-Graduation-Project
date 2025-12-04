@@ -18,10 +18,15 @@ class ScheduleServiceSupabase {
     final scheduleId = inserted['schedule_id'] as int;
 
     // Schedule the alarm
-    final scheduledDate = schedule.scheduledAt;
+    // final scheduledDate = DateTime.parse(schedule.date);
+    final date = schedule.date; // "2025-01-10"
+    final hour = schedule.hour; // "14:30"
+    final scheduledDateTime = DateTime.parse(
+      "${schedule.date} ${schedule.hour}:00",
+    );
 
     await AndroidAlarmManager.oneShotAt(
-      scheduledDate,
+      scheduledDateTime,
       scheduleId, // unique alarm ID
       alarmCallbackWithId,
       exact: true,

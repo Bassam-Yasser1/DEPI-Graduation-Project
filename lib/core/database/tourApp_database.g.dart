@@ -112,7 +112,7 @@ class _$tourDatabase extends tourDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `favorites` (`favId` INTEGER PRIMARY KEY AUTOINCREMENT, `addedAt` INTEGER, `userId` TEXT NOT NULL, `category` TEXT, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `schedules` (`scheduleId` INTEGER PRIMARY KEY AUTOINCREMENT, `placeId` INTEGER NOT NULL, `date` TEXT NOT NULL, `hour` TEXT NOT NULL, `note` TEXT NOT NULL, `name` TEXT, `isDone` INTEGER, `createdAt` INTEGER, `userId` TEXT, `lat` REAL, `lng` REAL, `image` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `schedules` (`scheduleId` INTEGER PRIMARY KEY AUTOINCREMENT, `placeId` INTEGER NOT NULL, `date` TEXT NOT NULL, `hour` TEXT NOT NULL, `note` TEXT, `name` TEXT, `isDone` INTEGER, `createdAt` INTEGER, `userId` TEXT, `lat` REAL, `lng` REAL, `image` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `search_history` (`seachId` INTEGER PRIMARY KEY AUTOINCREMENT, `query` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `userId` TEXT)');
         await database.execute(
@@ -458,7 +458,7 @@ class _$ScheduleDao extends ScheduleDao {
             scheduleId: row['scheduleId'] as int?,
             placeId: row['placeId'] as int,
             date: row['date'] as String,
-            note: row['note'] as String,
+            note: row['note'] as String?,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
             createdAt: row['createdAt'] as int?,
             userId: row['userId'] as String?,
@@ -477,7 +477,7 @@ class _$ScheduleDao extends ScheduleDao {
             scheduleId: row['scheduleId'] as int?,
             placeId: row['placeId'] as int,
             date: row['date'] as String,
-            note: row['note'] as String,
+            note: row['note'] as String?,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
             createdAt: row['createdAt'] as int?,
             userId: row['userId'] as String?,
@@ -496,7 +496,7 @@ class _$ScheduleDao extends ScheduleDao {
             scheduleId: row['scheduleId'] as int?,
             placeId: row['placeId'] as int,
             date: row['date'] as String,
-            note: row['note'] as String,
+            note: row['note'] as String?,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
             createdAt: row['createdAt'] as int?,
             userId: row['userId'] as String?,

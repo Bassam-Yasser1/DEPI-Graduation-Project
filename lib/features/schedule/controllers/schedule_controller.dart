@@ -1,3 +1,5 @@
+import 'package:depi_graduation_project/core/services/schedule_services/schedule_service.dart';
+import 'package:depi_graduation_project/models/schedule_model.dart';
 import 'package:get/get.dart';
 
 import '../../../core/database/models/schedules.dart';
@@ -5,7 +7,7 @@ import '../../../core/errors/app_exception.dart';
 import '../../../main.dart';
 
 class ScheduleController extends GetxController {
-  final allSchedules = <Schedule>[].obs;
+  final allSchedules = <ScheduleModel>[].obs;
   final error = RxnString();
   final selectedCard = 1.obs;
 
@@ -29,6 +31,8 @@ class ScheduleController extends GetxController {
       if (localList.isNotEmpty) {
         allSchedules.value = localList;
         return;
+      } else {
+        allSchedules.value = await ScheduleService().getSchedulesSB(userId);
       }
     } catch (e) {
       throw AppException(msg: "Failed to load schedules");
