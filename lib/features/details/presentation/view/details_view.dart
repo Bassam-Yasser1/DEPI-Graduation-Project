@@ -131,53 +131,78 @@ class DetailsView extends GetView<DetailsController> {
                 const Gap(50),
             
                 Center(
-                  child: SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: AppButton(
-                      child: Text(
-                        'Open Location',
-                        style: AppTextStyle.regular18.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-            
-                      onPressed: () async {
-                        await launchUrl(
-                          mode: LaunchMode.externalApplication,
-                          Uri.parse(
-                            "https://www.google.com/maps/search/?api=1&query=${controller.place.lat},${controller.place.lng}",
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: 250,
+                        child: AppButton(
+                          child: Text(
+                            'Open Location',
+                            style: AppTextStyle.regular18.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const Gap(20),
-            
-                Center(
-                  child: SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: AppButton(
-                      child: Text(
-                        'Schedule Visit',
-                        style: AppTextStyle.regular18.copyWith(
-                          color: Colors.white,
+
+                          onPressed: () async {
+                            await launchUrl(
+                              mode: LaunchMode.externalApplication,
+                              Uri.parse(
+                                "https://www.google.com/maps/search/?api=1&query=${controller.place.lat},${controller.place.lng}",
+                              ),
+                            );
+                          },
                         ),
                       ),
-                        onPressed: () {
+                      const Gap(8),
 
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => const ScheduleBottomSheet(),
-                          );
-                        }
-                    ),
-                  ),
+                      SizedBox(
+                          height: 50,
+                          width: 70,
+                          child: ElevatedButton(onPressed: (){
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => const ScheduleBottomSheet(),
+                            );
+
+                          },style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              )
+                          ), child: Icon(Icons.calendar_month,color: Colors.black,size: 25,))
+                      ),
+                      ]
+                  )
                 ),
+                // const Gap(20),
+            
+                // Center(
+                //   child: SizedBox(
+                //     height: 50,
+                //     width: 250,
+                //     child: AppButton(
+                //       child: Text(
+                //         'Schedule Visit',
+                //         style: AppTextStyle.regular18.copyWith(
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //         onPressed: () {
+                //
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (_) => const ScheduleBottomSheet(),
+                //           );
+                //         }
+                //     ),
+                //   ),
+                // ),
             
               ],
             ),

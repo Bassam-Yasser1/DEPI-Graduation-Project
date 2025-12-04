@@ -91,8 +91,8 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          // initialRoute: AuthService().isLogin() ? Routes.main : Routes.login,
-          initialRoute: Routes.schedule,
+          initialRoute: AuthService().isLogin() ? Routes.main : Routes.login,
+          // initialRoute: Routes.schedule,
           initialBinding: BindingsBuilder(() {
             Get.lazyPut(() => ApiServices());
           }),
