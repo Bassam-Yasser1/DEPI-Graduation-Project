@@ -9,14 +9,14 @@ import '../alarm_callback.dart';
 class ScheduleService {
   Future<void> createSchedule(Schedule schedule) async {
     // Schedule the alarm for the exact time
-    final scheduledDate = DateTime.parse(schedule.scheduled_at);
+    final scheduledDate = DateTime.parse(schedule.date);
     final id = await database.scheduledao.insertSchedule(schedule);
     await ScheduleServiceSupabase().createSchedule(
       ScheduleSupabase(
         scheduleId: id,
         scheduledAt: scheduledDate,
-        createdAt: schedule.created_at,
-        placeId: schedule.place_id,
+        createdAt: schedule.createdAt!,
+        placeId: schedule.placeId,
         userId: cloud.auth.currentUser?.id,
       ),
     );
@@ -33,10 +33,10 @@ class ScheduleService {
 
   Future<void> deleteSchedule(Schedule schedule) async {
     await database.scheduledao.deleteSchedule(schedule);
-    await ScheduleServiceSupabase().deleteSchedule(schedule.schedule_id);
+    await ScheduleServiceSupabase().deleteSchedule(schedule.scheduleId);
 
     // Cancel the alarm
-    await AndroidAlarmManager.cancel(schedule.schedule_id!);
+    await AndroidAlarmManager.cancel(schedule.scheduleId!);
   }
 
   // Mark schedule as done

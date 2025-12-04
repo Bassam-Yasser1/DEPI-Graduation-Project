@@ -1,6 +1,6 @@
 class ScheduleSupabase {
   final int? scheduleId; // Supabase BIGSERIAL
-  final String? placeId;
+  final int placeId;
   final DateTime scheduledAt;
   final String? note;
   final bool isDone;
@@ -9,7 +9,7 @@ class ScheduleSupabase {
 
   ScheduleSupabase({
     this.scheduleId,
-    this.placeId,
+    required this.placeId,
     required this.scheduledAt,
     this.note,
     this.isDone = false,
@@ -21,7 +21,7 @@ class ScheduleSupabase {
   factory ScheduleSupabase.fromMap(Map<String, dynamic> map) {
     return ScheduleSupabase(
       scheduleId: map['schedule_id'] as int?,
-      placeId: map['place_id'] as String?,
+      placeId: map['place_id'] as int,
       scheduledAt: DateTime.parse(map['scheduled_at'] as String),
       note: map['note'] as String?,
       isDone: map['is_done'] as bool? ?? false,

@@ -21,9 +21,9 @@ void alarmCallbackWithId(int scheduleId) async {
   if (schedule != null) {
     // Show notification
     NotificationService.showNotification(
-      id: schedule.schedule_id ?? scheduleId,
+      id: schedule.scheduleId ?? scheduleId,
       title: 'Visit Reminder',
-      body: 'It’s time to visit ${schedule.place_id ?? "your destination"}!',
+      body: 'It’s time to visit ${schedule.placeId ?? "your destination"}!',
     );
   } else if (supaSchedule != null) {
     NotificationService.showNotification(
