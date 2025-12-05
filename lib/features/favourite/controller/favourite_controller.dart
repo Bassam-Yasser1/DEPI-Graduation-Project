@@ -32,25 +32,10 @@ class FavouritesController extends GetxController {
     deleted.remove(placeId);
   }
 
-  // Future<void> loadData() async {
-  //   final list = await database.favoritedao.selectFavorites(
-  //     cloud.auth.currentUser!.id,
-  //   );
-  //   // replace whole list so Obx detects change
-  //   if (list.isNotEmpty) {
-  //     allFavourits.value = list;
-  //   } else {
-  //     allFavourits.value = await FavoritesService().getFavorites();
-  //     // ولو عايز تحفظ اللي جالك محليًا بعد ما تسحب من السوبا بيز
-  //     for (var fav in allFavourits.value) {
-  //       await database.favoritedao.insertFavorite(fav);
-  //     }
-  //   }
-  // }
   Future<void> loadData() async {
     try {
       final userId = cloud.auth.currentUser!.id;
-
+      print("++++++++++++++++++++++++++$userId");
       final localList = await database.favoritedao.selectFavorites(userId);
 
       if (localList.isNotEmpty) {
@@ -86,28 +71,6 @@ class FavouritesController extends GetxController {
     }
   }
 
-  // Future<void> removeFavorite(int index) async {
-  //   if (index < 0 || index >= allFavourits.length) return;
-  //
-  //   final fav = allFavourits[index];
-  //   await database.favoritedao.deleteFavorite(
-  //     fav.user_id!,
-  //     fav.place_id!,
-  //   );
-  //   allFavourits.removeAt(index);
-  // }
-  // Future<void> removeFavorite(int placeId) async {
-  //   await database.favoritedao.deleteFavorite(
-  //     cloud.auth.currentUser!.id,
-  //     placeId,
-  //   );
-  //   await FavoritesService().removeFavoriteByPlaceId(
-  //     placeId,
-  //     cloud.auth.currentUser!.id,
-  //   );
-  //
-  //   allFavourits.removeWhere((f) => f.place_id == placeId);
-  // }
   Future<void> removeFavoriteFromDB(int placeId) async {
     final userId = cloud.auth.currentUser!.id;
     allFavourits.removeWhere((f) => f.placeId == placeId);

@@ -11,6 +11,7 @@ class ScheduleController extends GetxController {
 
   @override
   void onInit() {
+    print('initttttt');
     // TODO: implement onInit
     try {
       loadData();
@@ -22,6 +23,7 @@ class ScheduleController extends GetxController {
   }
 
   Future<void> loadData() async {
+    print("sssssssssssssssssssssssss");
     try {
       final userId = cloud.auth.currentUser!.id;
       final localList = await database.scheduledao.selectSchedules(userId);
