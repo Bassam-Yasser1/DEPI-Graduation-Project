@@ -3,8 +3,6 @@ import 'package:depi_graduation_project/core/errors/app_exception.dart';
 import 'package:depi_graduation_project/core/functions/has_internet.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
 class ApiServices {
   final dio = Dio(BaseOptions(

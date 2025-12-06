@@ -2,7 +2,6 @@ import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/core/utilities/routes.dart';
 import 'package:depi_graduation_project/features/favourite/controller/favourite_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
