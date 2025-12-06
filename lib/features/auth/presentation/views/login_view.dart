@@ -114,7 +114,7 @@ class LoginView extends GetView<LoginController> {
 
                         AppButton(
                           onPressed: () {
-                            Get.offNamed(Routes.register);
+                            Get.toNamed(Routes.register);
                           },
 
                           style: ElevatedButton.styleFrom(
