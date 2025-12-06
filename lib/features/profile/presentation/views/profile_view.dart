@@ -17,48 +17,41 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(75),
-        child: AppBar(
-          actions: [
-            Obx(() {
-              return IconButton(
-                onPressed: () {
+      backgroundColor: Colors.white,
+        appBar: PreferredSize(preferredSize: Size.fromHeight(56.h),
+          child: AppBar(
+            actions: [
+              Obx(() {
+                return IconButton(onPressed: () {
                   //themes code
                   controller.themesICon.toggle();
                 },
-                icon: controller.themesICon.value
-                    ? const Icon(Icons.sunny)
-                    : const Icon(Icons.dark_mode),
-              );
-            }),
-            Gap(5.w),
-          ],
-          iconTheme: IconThemeData(color: Colors.white, size: 30.h),
-          title: FittedBox(
-            child: Text(
-              'Profile',
-              style: AppTextStyle.bold24.copyWith(
-                color: Colors.white,
-                fontSize: 30,
+                    icon: controller.themesICon.value
+                        ? const Icon(Icons.sunny,color: Colors.amber,)
+                        : const Icon(Icons.dark_mode,color:Colors.blueAccent ,));
+              }),
+              Gap(5.w,)
+            ],
+            iconTheme: IconThemeData(color: Colors.white, size: 40.h),
+            title: FittedBox(
+              child: Text('Profile',
+                  style: AppTextStyle.bold24.copyWith(
+                      color: Colors.black, fontSize: 30)
               ),
-            ),
-          ),
-          backgroundColor: AppColors.main,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Obx(() {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: Get.width,
-                      child: Card(
+            )
+            , backgroundColor: Colors.white,),),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Obx(() {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: Get.width
+                        , child: Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -128,47 +121,46 @@ class ProfileView extends GetView<ProfileController> {
                                     color: Colors.white,
                                   ),
                                 ),
-                              ),
-                            ),
-                            const Gap(15),
-                            buildRow(
-                              Icons.person,
-                              massage: 'Full Name',
-                              des: controller.fullName.value,
-                            ),
-                            const Gap(10),
-                            const Divider(),
-                            buildRow(
-                              Icons.email_outlined,
-                              massage: 'Email Address',
-                              des: cloud.auth.currentUser!.email,
-                            ),
-                            const Gap(25),
-                          ],
+                              ), Gap(15),
+                              buildRow(Icons.person, massage: 'Full Name',
+                                  des: controller.fullName.value),
+                              const Gap(10,),
+                              const Divider(),
+                              buildRow(
+                                  Icons.email_outlined,
+                                  massage: 'Email Address',
+                                  des: cloud.auth.currentUser!.email),
+                              const Gap(25,),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(20),
-
-                AppButton(
-                  child: Text(
-                    'Logout',
-                    style: AppTextStyle.semiBold20.copyWith(
-                      color: Colors.white,
-                    ),
+                      )
+                    ],
                   ),
-                  onPressed: () {
-                    Get.offNamed('/login');
-                    AuthService().logout();
-                  },
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+                  const Gap(20),
+                  SizedBox(
+                    width: 200,
+                    height: 47,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Get.offNamed('/login');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)
+                            ),
+                            backgroundColor: AppColors.main
+                        ),
+                        child: Text('Logout',
+                          style: AppTextStyle.semiBold20.copyWith(color: Colors
+                              .white),)),
+                  )
+                ],
+              ),
+            );
+          }),
+        )
+
     );
   }
 
