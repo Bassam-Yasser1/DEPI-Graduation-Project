@@ -34,7 +34,6 @@ class ScheduleView extends GetView<ScheduleController> {
                 Text(
                   'Your Scheduling',
                   style: TextStyle(
-                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30.sp,
                   ),

@@ -1,3 +1,4 @@
+import 'package:depi_graduation_project/core/helper/theme_manager.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/auth_service.dart';
 import 'package:depi_graduation_project/core/utilities/app_colors.dart';
 import 'package:depi_graduation_project/core/widgets/app_button.dart';
@@ -16,6 +17,7 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    print(controller.lightTheme.value);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56.h),
@@ -23,11 +25,17 @@ class ProfileView extends GetView<ProfileController> {
           actions: [
             Obx(() {
               return IconButton(
-                onPressed: () {
-                  //themes code
-                  controller.themesICon.toggle();
+                onPressed: () async {
+                  controller.lightTheme.toggle();
+                  if (!controller.lightTheme.value) {
+                    Get.changeThemeMode(ThemeMode.dark);
+                    await ThemeManager().setTheme(ThemeModeState.dark);
+                  } else {
+                    Get.changeThemeMode(ThemeMode.light);
+                    await ThemeManager().setTheme(ThemeModeState.light);
+                  }
                 },
-                icon: controller.themesICon.value
+                icon: !controller.lightTheme.value
                     ? const Icon(Icons.sunny, color: Colors.amber)
                     : const Icon(Icons.dark_mode, color: Colors.blueAccent),
               );
@@ -45,26 +53,24 @@ class ProfileView extends GetView<ProfileController> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Obx(() {
-          return Column(
-            children: [
-              Gap(20.h),
-              const Column(children: [UserInfo(), Gap(10), AccountInfo()]),
-              Gap(30.h),
+        child: Column(
+          children: [
+            Gap(20.h),
+            const Column(children: [UserInfo(), Gap(10), AccountInfo()]),
+            Gap(30.h),
 
-              AppButton(
-                child: Text(
-                  'Logout',
-                  style: AppTextStyle.regular20.copyWith(color: Colors.white),
-                ),
-                onPressed: () async {
-                  await AuthService().logout();
-                  Get.offNamed('/login');
-                },
+            AppButton(
+              child: Text(
+                'Logout',
+                style: AppTextStyle.regular20.copyWith(color: Colors.white),
               ),
-            ],
-          );
-        }),
+              onPressed: () async {
+                await AuthService().logout();
+                Get.offNamed('/login');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

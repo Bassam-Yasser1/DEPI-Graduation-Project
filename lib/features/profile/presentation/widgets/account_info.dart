@@ -16,7 +16,6 @@ class AccountInfo extends GetView<ProfileController> {
     return SizedBox(
       width: Get.width,
       child: Card(
-        color: Colors.white,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Column(
@@ -44,7 +43,7 @@ class AccountInfo extends GetView<ProfileController> {
               des: controller.fullName.value,
             ),
             const Gap(10),
-            const Divider(),
+            const Divider(color: Colors.grey),
             buildRow(
               Icons.email_outlined,
               massage: 'Email Address',

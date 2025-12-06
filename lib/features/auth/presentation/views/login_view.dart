@@ -1,5 +1,6 @@
 import 'package:depi_graduation_project/core/database/models/profile.dart';
 import 'package:depi_graduation_project/core/errors/app_exception.dart';
+import 'package:depi_graduation_project/core/functions/is_dark.dart';
 import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_colors.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
@@ -119,6 +120,9 @@ class LoginView extends GetView<LoginController> {
 
                           style: ElevatedButton.styleFrom(
                             foregroundColor: AppColors.main,
+                            backgroundColor: isDark()
+                                ? const Color(0xff2A2A2A)
+                                : Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadiusGeometry.circular(10),
                               side: const BorderSide(

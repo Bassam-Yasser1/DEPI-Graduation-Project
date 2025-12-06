@@ -1,3 +1,4 @@
+import 'package:depi_graduation_project/core/functions/is_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,7 +25,9 @@ class SearchField extends StatelessWidget {
         hintText: 'Search for attractions...',
         hintStyle: TextStyle(color: Colors.grey, fontSize: 17.sp),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: isDark()
+            ? const Color(0xff2A2A2A)
+            : AppColors.fillTextField,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,

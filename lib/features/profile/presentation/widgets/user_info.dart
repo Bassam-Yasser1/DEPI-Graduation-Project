@@ -18,7 +18,6 @@ class UserInfo extends GetView<ProfileController> {
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(

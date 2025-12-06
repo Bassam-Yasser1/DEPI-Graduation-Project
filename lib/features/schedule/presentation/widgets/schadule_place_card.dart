@@ -63,7 +63,12 @@ class SchadulePlaceCard extends GetView<ScheduleController> {
                         backgroundColor: Colors.green,
                       ),
                       const Gap(5),
-                      Text("In Progress", style: AppTextStyle.regular14),
+                      Text(
+                        "In Progress",
+                        style: AppTextStyle.regular14.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ),

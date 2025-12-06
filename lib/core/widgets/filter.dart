@@ -1,3 +1,4 @@
+import 'package:depi_graduation_project/core/functions/is_dark.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,7 +40,9 @@ class _FilterState extends State<Filter> {
               ),
               color: selectedIndex == index
                   ? AppColors.main
-                  : Colors.grey.shade300,
+                  : (isDark()
+                        ? AppColors.darkSurface
+                        : Colors.grey.shade300),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -53,8 +56,10 @@ class _FilterState extends State<Filter> {
                               Icon(
                                 widget.filterList[index].icon,
                                 color: selectedIndex == index
-                                    ? Colors.white
-                                    : Colors.black,
+                                    ? (Colors.white)
+                                    : (isDark()
+                                          ? Colors.white
+                                          : Colors.black),
                               ),
                               const Gap(10),
                             ],
@@ -65,7 +70,7 @@ class _FilterState extends State<Filter> {
                       style: TextStyle(
                         color: selectedIndex == index
                             ? Colors.white
-                            : Colors.black,
+                            : (isDark() ? Colors.white : Colors.black),
                         fontSize: 20.sp,
                       ),
                     ),
