@@ -19,7 +19,7 @@ import 'package:depi_graduation_project/features/profile/controllers/profile_con
 import 'package:depi_graduation_project/features/profile/presentation/views/profile_view.dart';
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
 import 'package:depi_graduation_project/features/schedule/presentation/view/schedule_view.dart';
-import 'package:depi_graduation_project/features/search/presentation/search_view.dart';
+import 'package:depi_graduation_project/features/home/presentation/views/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +29,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'core/services/supabase_services/auth_service.dart';
 import 'core/utilities/routes.dart';
-import 'features/search/search_controller/search_controller.dart';
+import 'features/home/controllers/search_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
