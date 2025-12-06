@@ -12,37 +12,44 @@ class SearchView extends GetView<searchController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Column(
-            children: [
-              SearchField(
-                controller: controller.sController,
-                onPressed: () {
-                  if (controller.sController.text.isNotEmpty) {
-                    controller.loadData();
-                  }
-                },
-              ),
-              Gap(15.h),
-              Align(
-                alignment: const Alignment(-0.9, 1),
-                child: Text('Results', style: AppTextStyle.bold26),
-              ),
-              Gap(10.h),
-              Expanded(
-                child: Obx(() {
-                  return controller.searchList.isEmpty
-                      ? const Center(child: Text('No place'))
-                      : ListView.builder(
-                          itemCount: controller.searchList.length,
-                          itemBuilder: (ctx, index) => PlaceCard(index),
-                        );
-                }),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Column(
+              children: [
+                SearchField(
+                  controller: controller.sController,
+                  onPressed: () {
+                    if (controller.sController.text.isNotEmpty) {
+                      controller.loadData();
+                    }
+                  },
+                ),
+                Gap(15.h),
+                Align(
+                  alignment: const Alignment(-0.9, 1),
+                  child: Text('Results', style: AppTextStyle.bold26),
+                ),
+                Gap(10.h),
+                Expanded(
+                  child: Obx(() {
+                    return controller.searchList.isEmpty
+                        ? const Center(child: Text('No place'))
+                        : ListView.separated(
+                            itemCount: controller.searchList.length,
+                            itemBuilder: (ctx, index) => PlaceCard(index),
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                                  return const Gap(10);
+                                },
+                          );
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
