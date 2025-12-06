@@ -46,6 +46,7 @@ dependencies:
   supabase_flutter: ^2.10.3
   url_launcher: ^6.3.2
   shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4

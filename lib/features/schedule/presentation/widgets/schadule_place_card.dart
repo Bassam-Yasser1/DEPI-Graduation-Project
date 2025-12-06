@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,9 @@ class SchadulePlaceCard extends GetView<ScheduleController> {
                   top: Radius.circular(16),
                 ),
                 child: controller.allSchedules[index].image != null
-                    ? Image.network(
-                        controller.allSchedules[index].image!, // الصورة
+                    ? CachedNetworkImage(
+                        imageUrl:
+                            controller.allSchedules[index].image!, // الصورة
                         height: 150.h,
                         width: double.infinity,
                         fit: BoxFit.cover,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depi_graduation_project/core/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,7 @@ class PlaceCard extends GetView<searchController> {
                 topRight: Radius.circular(12),
               ),
               child: controller.searchList[index].image != null
-                  ? Image.network(
+                  ?    CachedNetworkImage(imageUrl: 
                       controller.searchList[index].image!,
                       width: double.infinity,
                       height: 180,

@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/features/home/controllers/home_controller.dart';
 import 'package:depi_graduation_project/main.dart';
@@ -30,13 +31,13 @@ class HomePlaceCard extends GetView<HomeController> {
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              child: controller.places[index].image != null
-                  ? Image.network(
-                      controller.places[index].image!,
-                      width: double.infinity,
+              child: controller.places[index].image != null?
+
+              CachedNetworkImage(imageUrl:  controller.places[index].image!,  
+                       width: double.infinity,
                       height: 180.h,
-                      fit: BoxFit.fill,
-                    )
+                      fit: BoxFit.fill,)
+         
                   : Container(
                       width: double.infinity,
                       height: 180.h,

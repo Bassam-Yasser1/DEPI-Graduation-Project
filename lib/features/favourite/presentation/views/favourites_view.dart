@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
 import 'package:depi_graduation_project/core/utilities/routes.dart';
@@ -69,7 +70,7 @@ class FavouritesView extends GetView<FavouritesController> {
                             },
                             child: Card(
                               elevation: 4,
-                              // color: Colors.white,
+                              color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8,
@@ -85,7 +86,7 @@ class FavouritesView extends GetView<FavouritesController> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: NetworkImage(fav.image ?? ''),
+                                          image: CachedNetworkImageProvider(fav.image ?? ''),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
