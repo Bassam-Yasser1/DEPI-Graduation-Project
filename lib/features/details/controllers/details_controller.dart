@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:depi_graduation_project/core/database/models/favorites.dart';
 import 'package:depi_graduation_project/core/database/models/schedules.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/favorite_service.dart';
@@ -12,6 +11,7 @@ import 'package:depi_graduation_project/models/schedule_supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/services/notification_service.dart';
 import '../../../models/place_model.dart';
 import '../../favourite/controller/favourite_controller.dart';
 
@@ -121,6 +121,7 @@ class DetailsController extends GetxController {
   }
 
   Future<void> addSchdule() async {
+    final int newNotificationId = NotificationService.generateId();
     final uId = cloud.auth.currentUser!.id;
     final sch = Schedule(
       date: dateController.text,
@@ -149,6 +150,7 @@ class DetailsController extends GetxController {
         image: sch.image,
         name: sch.name,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        notificationId: newNotificationId,
       ),
     );
     dateController.clear();

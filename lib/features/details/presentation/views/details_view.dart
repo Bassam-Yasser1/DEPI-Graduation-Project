@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depi_graduation_project/core/functions/snack_bar.dart';
 import 'package:depi_graduation_project/core/utilities/app_colors.dart';
@@ -13,7 +11,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/functions/exact_alarm_permission.dart';
+import '../../../../core/functions/parse_time.dart';
 
 class DetailsView extends GetView<DetailsController> {
   const DetailsView({super.key});
@@ -33,8 +31,8 @@ class DetailsView extends GetView<DetailsController> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: controller.place.image != null
-                          ?    CachedNetworkImage(imageUrl:
-                              controller.place.image!,
+                          ? CachedNetworkImage(
+                              imageUrl: controller.place.image!,
                               width: double.infinity,
                               height: 350,
                               fit: BoxFit.cover,
@@ -163,19 +161,19 @@ class DetailsView extends GetView<DetailsController> {
                         width: 70,
                         child: ElevatedButton(
                           onPressed: () {
-                            // showModalBottomSheet(
-                            //   isScrollControlled: true,
-                            //
-                            //   context: context,
-                            //   // backgroundColor: Colors.transparent,
-                            //   builder: (_) => Padding(
-                            //     padding: EdgeInsets.only(
-                            //       bottom: Get.mediaQuery.viewInsets.bottom,
-                            //     ),
-                            //     child: const ScheduleForm(),
-                            //   ),
-                            // );
-                            checkExactAlarmAndOpenForm(context);
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+
+                              context: context,
+                              // backgroundColor: Colors.transparent,
+                              builder: (_) => Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: Get.mediaQuery.viewInsets.bottom,
+                                ),
+                                child: const ScheduleForm(),
+                              ),
+                            );
+                            // checkExactAlarmAndOpenForm(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey,

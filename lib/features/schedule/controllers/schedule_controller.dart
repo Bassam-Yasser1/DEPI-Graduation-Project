@@ -1,4 +1,4 @@
-import 'package:depi_graduation_project/core/services/schedule_services/schedule_service.dart';
+import 'package:depi_graduation_project/core/services/supabase_services/schedule_service_supabase.dart';
 import 'package:depi_graduation_project/models/schedule_model.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,9 @@ class ScheduleController extends GetxController {
         allSchedules.value = localList;
         return;
       } else {
-        allSchedules.value = await ScheduleService().getSchedulesSB(userId);
+        allSchedules.value = await ScheduleServiceSupabase().getSchedules(
+          userId,
+        );
       }
     } catch (e) {
       throw AppException(msg: "Failed to load schedules");

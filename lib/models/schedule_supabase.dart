@@ -1,13 +1,15 @@
 import 'package:depi_graduation_project/models/schedule_model.dart';
 
 class ScheduleSupabase extends ScheduleModel {
-  final int? scheduleId; // Supabase BIGSERIAL
+  final int? scheduleId;
+  final int? notificationId; // NEW
 
   ScheduleSupabase({
     this.scheduleId,
+    this.notificationId, // FIXED
     required int placeId,
-    required String date, // "2025-01-10"
-    required String hour, // "14:30"
+    required String date,
+    required String hour,
     required String? note,
     required bool isDone,
     required int createdAt,
@@ -33,6 +35,7 @@ class ScheduleSupabase extends ScheduleModel {
   factory ScheduleSupabase.fromMap(Map<String, dynamic> map) {
     return ScheduleSupabase(
       scheduleId: map['schedule_id'] as int?,
+      notificationId: map['notification_id'] as int?, // NEW
       placeId: map['place_id'] as int,
       date: map['date'] as String,
       hour: map['hour'] as String,
@@ -47,22 +50,6 @@ class ScheduleSupabase extends ScheduleModel {
     );
   }
 
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'schedule_id': scheduleId,
-  //     'place_id': placeId,
-  //     'date': date,
-  //     'hour': hour,
-  //     'note': note,
-  //     'is_done': isDone,
-  //     'created_at': createdAt,
-  //     'user_id': userId,
-  //     'lat': lat,
-  //     'lng': lng,
-  //     'image': image,
-  //     'name': name,
-  //   };
-  // }
   Map<String, dynamic> toMap() {
     final map = {
       'place_id': placeId,
@@ -76,9 +63,9 @@ class ScheduleSupabase extends ScheduleModel {
       'lng': lng,
       'name': name,
       'image': image,
+      'notification_id': notificationId, // NEW
     };
 
-    // Include schedule_id only if it's not null (for updates)
     if (scheduleId != null) {
       map['schedule_id'] = scheduleId;
     }

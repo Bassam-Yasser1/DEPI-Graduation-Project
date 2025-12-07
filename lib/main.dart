@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/helper/casheHelper.dart';
@@ -57,7 +56,6 @@ Future<void> main() async {
   await NotificationService.initialize();
 
   // Initialize Alarm Manager
-  await AndroidAlarmManager.initialize();
   bool allowed = await AwesomeNotifications().isNotificationAllowed();
   if (!allowed) {
     await AwesomeNotifications().requestPermissionToSendNotifications();
