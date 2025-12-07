@@ -61,8 +61,15 @@ class HomeController extends GetxController {
       lat: 29.979235,
       long: 31.134202,
     );
-    final geoapifyData = await geoapify.getPlaces(lat: 29.979235, lon: 31.134202);
-    data!.addAll(geoapifyData!);
+
+    final geoapifyData = await geoapify.getPlaces(
+        lat: 29.979235,
+        lon: 31.134202,
+    );
+
+    // data!.addAll(geoapifyData!);
+
+    if (data != null && geoapifyData != null ) data.addAll(geoapifyData);
     places.value =
         data?.where((p) {
           if (p.desc == null || p.desc!.trim().isEmpty) {
