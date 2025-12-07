@@ -10,8 +10,8 @@ class GeoapifyService {
   final String apiKey = "29d9a542ed1f4de1994142b6ca3675dc";
 
   Future<List<PlaceModel>?> getPlaces({
-    required double lon,
     required double lat,
+    required double lon,
     int radius = 5000,
   }) async {
     if (await hasInternet()) {
@@ -19,8 +19,7 @@ class GeoapifyService {
         baseUrl,
         queryParameters: {
           "categories": "airport,commercial.shopping_mall,commercial.gift_and_souvenir"
-              ",catering.restaurant,catering.cafe,catering.food_court"
-              ",accommodation.hotel,national_park,entertainment,sport,beach",
+              ",catering,,accommodation.hotel,national_park,entertainment,sport,beach,religion,natural",
           "filter": "circle:$lon,$lat,$radius",
           "limit": "20",
           "apiKey": apiKey,
