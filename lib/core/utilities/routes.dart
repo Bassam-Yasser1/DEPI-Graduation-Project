@@ -9,5 +9,5 @@ abstract class Routes {
   static const String search = '/search';
   static const String scheduleBottomSheet = '/schedule_bottom_sheet';
   static const String schedule = '/schedule_view';
-
+  static const String chatbot = '/chat_screen';
 }

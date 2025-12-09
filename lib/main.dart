@@ -5,12 +5,15 @@ import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/helper/casheHelper.dart';
 import 'package:depi_graduation_project/core/helper/theme_manager.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
+import 'package:depi_graduation_project/core/services/api_services/chatbot_service.dart';
 import 'package:depi_graduation_project/core/utilities/app_themes.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
 import 'package:depi_graduation_project/features/auth/controllers/login_controller.dart';
 import 'package:depi_graduation_project/features/auth/controllers/register_controller.dart';
 import 'package:depi_graduation_project/features/auth/presentation/views/login_view.dart';
 import 'package:depi_graduation_project/features/auth/presentation/views/register_view.dart';
+import 'package:depi_graduation_project/features/chatbot/controllers/chat_controller.dart';
+import 'package:depi_graduation_project/features/chatbot/presentation/chat_screen.dart';
 import 'package:depi_graduation_project/features/details/controllers/details_controller.dart';
 import 'package:depi_graduation_project/features/details/presentation/views/details_view.dart';
 import 'package:depi_graduation_project/features/favourite/controller/favourite_controller.dart';
@@ -26,6 +29,7 @@ import 'package:depi_graduation_project/features/schedule/presentation/view/sche
 import 'package:depi_graduation_project/features/home/presentation/views/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
@@ -38,6 +42,8 @@ import 'features/home/controllers/search_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Gemini.init(apiKey: 'AIzaSyCsiZ3YneeGOqFzMAD6Qj9gKybnx6h8WM4');
+
   await CasheHelper().init();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
@@ -112,7 +118,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeManager().getTheme(),
           debugShowCheckedModeBanner: false,
           initialRoute: AuthService().isLogin() ? Routes.main : Routes.login,
-          // initialRoute: Routes.schedule,
+          // initialRoute: Routes.chatbot,
           initialBinding: BindingsBuilder(() {
             Get.put(ApiServices());
           }),
@@ -178,6 +184,14 @@ class MyApp extends StatelessWidget {
               page: () => const ScheduleView(),
               binding: BindingsBuilder(() {
                 Get.lazyPut(() => ScheduleController());
+              }),
+            ),
+            GetPage(
+              name: Routes.chatbot,
+              page: () => ChatScreen(),
+              binding: BindingsBuilder(() {
+                Get.lazyPut(() => ChatController());
+                // Get.put(ChatController());
               }),
             ),
           ],

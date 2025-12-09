@@ -49,6 +49,9 @@ dependencies:
   url_launcher: ^6.3.2
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
+  flutter_chat_ui: ^1.5.4
+  flutter_chat_types: ^3.4.0
+  flutter_gemini: ^3.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
