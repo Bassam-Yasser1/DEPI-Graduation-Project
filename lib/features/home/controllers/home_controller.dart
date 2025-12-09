@@ -67,10 +67,13 @@ class HomeController extends GetxController {
     for (var element in data!) {
       list.add(
         RegionPlace(
+          name: element.name,
           region_id: regionId,
           place_id: element.placeId.toString(),
           lat: element.lat,
           lng: element.lng,
+          image: element.image,
+          desc: element.desc
         ),
       );
     }
