@@ -70,7 +70,6 @@ class FavouritesView extends GetView<FavouritesController> {
                             },
                             child: Card(
                               elevation: 4,
-                              color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8,
