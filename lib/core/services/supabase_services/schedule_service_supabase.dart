@@ -79,6 +79,6 @@ class ScheduleServiceSupabase {
         .maybeSingle();
 
     if (data == null) return null;
-    return ScheduleSupabase.fromMap(data as Map<String, dynamic>);
+    return ScheduleSupabase.fromMap(data);
   }
 }

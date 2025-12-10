@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:depi_graduation_project/core/database/tourApp_database.dart';
 import 'package:depi_graduation_project/core/helper/casheHelper.dart';
 import 'package:depi_graduation_project/core/helper/theme_manager.dart';
 import 'package:depi_graduation_project/core/services/api_services/api_services1.1.dart';
-import 'package:depi_graduation_project/core/services/api_services/chatbot_service.dart';
 import 'package:depi_graduation_project/core/utilities/app_themes.dart';
 import 'package:depi_graduation_project/core/utilities/assets.dart';
 import 'package:depi_graduation_project/features/auth/controllers/login_controller.dart';
@@ -197,7 +195,7 @@ class MyApp extends StatelessWidget {
             ),
             GetPage(
               name: Routes.chatbot,
-              page: () => ChatScreen(),
+              page: () => const ChatScreen(),
               binding: BindingsBuilder(() {
                 Get.lazyPut(() => ChatController());
                 // Get.put(ChatController());

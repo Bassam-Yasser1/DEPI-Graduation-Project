@@ -11,7 +11,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/functions/parse_time.dart';
 
 class DetailsView extends GetView<DetailsController> {
   const DetailsView({super.key});

@@ -111,9 +111,8 @@ class SchadulePlaceCard extends GetView<ScheduleController> {
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
 
-            child: controller.allSchedules[index].note == null
-                ? const SizedBox.shrink()
-                : Text(
+            child: 
+                Text(
                     controller.allSchedules[index].note,
                     style: AppTextStyle.regular14.copyWith(
                       height: 1.4,
