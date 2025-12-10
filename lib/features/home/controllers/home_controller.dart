@@ -39,7 +39,7 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void loadAll() async {
+  Future<void> loadAll() async {
     // position.value= await Location().getPosition();
     final data = await api.getPlacesWithDetails(
       lat: 29.979235,
@@ -91,5 +91,9 @@ class HomeController extends GetxController {
       );
     }
     await database.regionplacedao.insertRespPlaces(list);
+  }
+
+  Future<void> refreshPlaces() async {
+    await loadAll();
   }
 }

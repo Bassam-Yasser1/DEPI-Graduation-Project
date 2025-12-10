@@ -11,7 +11,7 @@ class RegionPlace {
   final String place_id;
   final String? name;
   final String? desc;
-  final String? category;
+  final List<String> category;
   final String? image;
 
 
@@ -28,7 +28,7 @@ class RegionPlace {
     required this.lat,
     required this.lng,
     this.desc,
-    this.category,
+    this.category = const [],
     this.image,
     this.search_id,
   });

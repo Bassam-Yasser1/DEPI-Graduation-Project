@@ -8,6 +8,7 @@ import 'package:depi_graduation_project/core/database/DAO/search_history_dao.dar
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import 'converter/categories_converter.dart';
 import 'models/favorites.dart';
 import 'models/profile.dart';
 import 'models/region_places.dart';
@@ -16,12 +17,24 @@ import 'models/schedules.dart';
 import 'models/search_history.dart';
 
 part 'tourApp_database.g.dart';
-@Database(version: 1, entities: [RegionRequest,RegionPlace,Favorite,Schedule,SearchHistory,Profile])
-abstract class tourDatabase extends FloorDatabase{
-RegionRequestDao get regionrequestdao;
-RegionPlacesDao get regionplacedao;
-FavoriteDao get favoritedao;
-ScheduleDao get scheduledao;
-SearchHistoryDao get searchhistorydao;
-ProfileDao get profiledao;
+
+@TypeConverters([CategoriesConverter])
+@Database(
+  version: 1,
+  entities: [
+    RegionRequest,
+    RegionPlace,
+    Favorite,
+    Schedule,
+    SearchHistory,
+    Profile,
+  ],
+)
+abstract class tourDatabase extends FloorDatabase {
+  RegionRequestDao get regionrequestdao;
+  RegionPlacesDao get regionplacedao;
+  FavoriteDao get favoritedao;
+  ScheduleDao get scheduledao;
+  SearchHistoryDao get searchhistorydao;
+  ProfileDao get profiledao;
 }

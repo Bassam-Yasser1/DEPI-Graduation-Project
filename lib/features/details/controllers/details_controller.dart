@@ -44,7 +44,7 @@ class DetailsController extends GetxController {
       desc: place.desc,
       image: place.image,
       lat: place.lat,
-      lng: place.lng,
+      lng: place.lng, categories: [],
     );
     await FavoritesService().addFavorite(favoriteSupa);
     // await FavoritesService().addFavorite(addFavorite);
