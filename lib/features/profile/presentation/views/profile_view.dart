@@ -1,10 +1,10 @@
-
-import 'package:depi_graduation_project/core/helper/theme_manager.dart';
-import 'package:depi_graduation_project/core/services/supabase_services/auth_service.dart';
-import 'package:depi_graduation_project/core/widgets/app_button.dart';
-import 'package:depi_graduation_project/features/profile/controllers/profile_controller.dart';
-import 'package:depi_graduation_project/features/profile/presentation/widgets/account_info.dart';
-import 'package:depi_graduation_project/features/profile/presentation/widgets/user_info.dart';
+import 'package:Boslah/core/functions/snack_bar.dart';
+import 'package:Boslah/core/helper/theme_manager.dart';
+import 'package:Boslah/core/services/supabase_services/auth_service.dart';
+import 'package:Boslah/core/widgets/app_button.dart';
+import 'package:Boslah/features/profile/controllers/profile_controller.dart';
+import 'package:Boslah/features/profile/presentation/widgets/account_info.dart';
+import 'package:Boslah/features/profile/presentation/widgets/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -65,17 +65,19 @@ class ProfileView extends GetView<ProfileController> {
                 child: Obx(() {
                   return controller.isLoading.value
                       ? const SizedBox(
-                    height: 22,
-                    width: 22,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
                       : Text(
-                    'Logout',
-                    style: AppTextStyle.regular20.copyWith(color: Colors.white),
-                  );
+                          'Logout',
+                          style: AppTextStyle.regular20.copyWith(
+                            color: Colors.white,
+                          ),
+                        );
                 }),
                 onPressed: () async {
                   try {
@@ -83,7 +85,7 @@ class ProfileView extends GetView<ProfileController> {
                     await AuthService().logout();
                     Get.offNamed('/login');
                   } catch (e) {
-                    Get.snackbar("Error", "Something went wrong while logging out");
+                    showSnackBar("Something went wrong while logging out");
                   } finally {
                     controller.isLoading.value = false;
                   }

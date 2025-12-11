@@ -1,7 +1,8 @@
-import 'package:depi_graduation_project/core/functions/snack_bar.dart';
-import 'package:depi_graduation_project/core/utilities/app_text_style.dart';
-import 'package:depi_graduation_project/core/widgets/app_button.dart';
-import 'package:depi_graduation_project/features/details/controllers/details_controller.dart';
+import 'package:Boslah/core/functions/snack_bar.dart';
+import 'package:Boslah/core/utilities/app_text_style.dart';
+import 'package:Boslah/core/widgets/app_button.dart';
+
+import 'package:Boslah/features/details/controllers/details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -100,21 +101,8 @@ class ScheduleForm extends StatelessWidget {
 
                       if (pickedDate.isBefore(currentDate)) {
                         // Show snackbar for invalid date
-                        Get.snackbar(
-                          "Invalid date",
-                          "You cannot choose a past date. Please select another date.",
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: const Duration(
-                            seconds: 1,
-                            milliseconds: 500,
-                          ),
-
-                          margin: EdgeInsets.only(
-                            right: 30,
-                            left: 30,
-                            bottom:
-                                MediaQuery.of(context).viewInsets.bottom + 30,
-                          ),
+                        showSnackBar(
+                          "Invalid date You cannot choose a past date. Please select another date.",
                         );
                         // showSnackBar( // i don't know why it's not working
                         //   context,
@@ -192,16 +180,15 @@ class ScheduleForm extends StatelessWidget {
                           );
 
                           if (pickedDateTime.isBefore(now)) {
-                            // Show snackbar for past time
-                            Get.snackbar(
-                              "Invalid time",
-                              "You cannot choose a past time for today. Please select another time.",
-                              snackPosition: SnackPosition.BOTTOM,
-                              // backgroundColor: Colors.redAccent,
-                              // colorText: Colors.white,
-                            );
-                            // showSnackBar(
-                            //   context,
+                            // Get.snackbar(
+                            //   "Invalid time",
+                            //   "You cannot choose a past time for today. Please select another time.",
+                            //   snackPosition: SnackPosition.BOTTOM,
+                            //   // backgroundColor: Colors.redAccent,
+                            //   // colorText: Colors.white,
+                            // );
+                            // // showSnackBar(
+                            // //   context,
                             //   "You cannot choose a past time for today. Please select another time.",
                             // );
                             return; // exit without assigning the time
@@ -228,14 +215,14 @@ class ScheduleForm extends StatelessWidget {
                 print(controller.dateController.text);
                 print(controller.timeController.text);
                 Get.back();
-                showSnackBar(context, 'please fill Data and Time');
+                showSnackBar('please fill Data and Time');
                 return;
               }
               try {
                 await controller.addSchdule();
-                showSnackBar(context, 'Schedule Added Successfully');
+                showSnackBar('Schedule Added Successfully');
               } catch (e) {
-                showSnackBar(context, e.toString());
+                showSnackBar(e.toString());
               }
               Get.back();
             },
