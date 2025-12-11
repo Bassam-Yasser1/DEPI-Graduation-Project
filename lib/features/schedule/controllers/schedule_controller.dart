@@ -117,6 +117,8 @@ class ScheduleController extends GetxController {
                 isDone: value.isDone,
                 userId: value.userId,
                 name: value.name,
+                lat: value.lat,
+                lng: value.lng,
               ),
             );
           } catch (_) {}
