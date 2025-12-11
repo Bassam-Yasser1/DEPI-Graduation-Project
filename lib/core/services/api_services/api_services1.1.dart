@@ -27,7 +27,7 @@ class ApiServices {
       try {
         final response = await dio.get(
           cancelToken: cancelToken,
-          baseUrl,
+          "https://en.wikipedia.org/w/api.php",
           queryParameters: {
             "action": "query",
             "generator": "geosearch",
