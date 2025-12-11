@@ -1,6 +1,7 @@
 import 'package:depi_graduation_project/core/database/models/region_places.dart';
 import 'package:depi_graduation_project/core/database/models/region_requests.dart';
 import 'package:depi_graduation_project/core/services/api_services/geoapify_services.dart';
+import 'package:depi_graduation_project/location.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:depi_graduation_project/main.dart';
@@ -13,7 +14,6 @@ import '../../../core/services/api_services/api_services1.1.dart';
 
 class HomeController extends GetxController {
   final searchController = TextEditingController();
-  final position = Rxn<Position>();
   final places = <PlaceModel>[].obs;
   final museums = <PlaceModel>[].obs;
   final restaurant = <PlaceModel>[].obs;
@@ -40,21 +40,21 @@ class HomeController extends GetxController {
   }
 
   void loadAll() async {
-    // position.value= await Location().getPosition();
+    final Position? position = await Location().getPosition();
     final data = await api.getPlacesWithDetails(
-      lat: 29.979235,
-      long: 31.134202,
+      lat: position!.latitude,
+      long: position.longitude,
     );
 
     final geoapifyData = await geoapify.getPlaces(
-        lat: 29.979235,
-        lon: 31.134202,
+      lat: position.latitude,
+      lon: position.longitude,
     );
 
-    if (data != null && geoapifyData != null ) {
+    if (data != null && geoapifyData != null) {
       data.addAll(geoapifyData);
       data.shuffle();
-    };
+    }
 
     places.value =
         data?.where((p) {
@@ -86,7 +86,7 @@ class HomeController extends GetxController {
           lat: element.lat,
           lng: element.lng,
           image: element.image,
-          desc: element.desc
+          desc: element.desc,
         ),
       );
     }
