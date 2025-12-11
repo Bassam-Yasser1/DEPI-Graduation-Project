@@ -1,11 +1,9 @@
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
 import 'package:depi_graduation_project/main.dart';
 import 'package:depi_graduation_project/models/schedule_model.dart';
-import 'package:depi_graduation_project/models/schedule_supabase.dart';
-import 'package:depi_graduation_project/models/schedule_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/services/supabase_services/schedule_service_supabase.dart';
 

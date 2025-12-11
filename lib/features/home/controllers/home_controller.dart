@@ -82,6 +82,13 @@ class HomeController extends GetxController {
       // await database.regionplacedao.insertRespPlaces(list);
     } on String catch (e) {
       appDialog(msg: e);
+
+      Future.delayed(const Duration(seconds: 10), () async {
+        Get.back();
+        await loadAll();
+      });
+//! to review later
+
     }
   }
 

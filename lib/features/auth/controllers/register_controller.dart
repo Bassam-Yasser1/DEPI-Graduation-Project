@@ -1,4 +1,3 @@
-import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:depi_graduation_project/core/errors/app_exception.dart';
 import 'package:depi_graduation_project/core/functions/has_internet.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/auth_service.dart';
