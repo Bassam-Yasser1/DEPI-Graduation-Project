@@ -108,7 +108,7 @@ class _$tourDatabase extends tourDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `region_requests` (`region_id` INTEGER PRIMARY KEY AUTOINCREMENT, `lat` REAL NOT NULL, `lng` REAL NOT NULL, `timestamp` INTEGER)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `region_places` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `region_id` INTEGER NOT NULL, `search_id` INTEGER, `place_id` TEXT NOT NULL, `name` TEXT, `desc` TEXT, `category` TEXT, `image` TEXT, `lat` REAL, `lng` REAL)');
+            'CREATE TABLE IF NOT EXISTS `region_places` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `regionId` INTEGER NOT NULL, `search_id` INTEGER, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL, `categories` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `favorites` (`favId` INTEGER PRIMARY KEY AUTOINCREMENT, `addedAt` INTEGER, `userId` TEXT NOT NULL, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL, `categories` TEXT NOT NULL)');
         await database.execute(
@@ -230,15 +230,15 @@ class _$RegionPlacesDao extends RegionPlacesDao {
             'region_places',
             (RegionPlace item) => <String, Object?>{
                   'id': item.id,
-                  'region_id': item.region_id,
+                  'regionId': item.regionId,
                   'search_id': item.search_id,
-                  'place_id': item.place_id,
+                  'placeId': item.placeId,
                   'name': item.name,
                   'desc': item.desc,
-                  'category': item.category,
                   'image': item.image,
                   'lat': item.lat,
-                  'lng': item.lng
+                  'lng': item.lng,
+                  'categories': _categoriesConverter.encode(item.categories)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -252,43 +252,44 @@ class _$RegionPlacesDao extends RegionPlacesDao {
   @override
   Future<List<RegionPlace>> selectRegionPlaces(int regionId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM region_places WHERE region_id = ?1',
+        'SELECT * FROM region_places WHERE regionId = ?1',
         mapper: (Map<String, Object?> row) => RegionPlace(
             id: row['id'] as int?,
-            region_id: row['region_id'] as int,
-            place_id: row['place_id'] as String,
-            name: row['name'] as String?,
+            regionId: row['regionId'] as int,
+            placeId: row['placeId'] as int,
             lat: row['lat'] as double?,
             lng: row['lng'] as double?,
             desc: row['desc'] as String?,
-            category: row['category'] as String?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String),
             image: row['image'] as String?,
-            search_id: row['search_id'] as int?),
+            search_id: row['search_id'] as int?,
+            name: row['name'] as String),
         arguments: [regionId]);
   }
 
   @override
   Future<RegionPlace?> selectPlaceById(int placeId) async {
-    return _queryAdapter.query(
-        'SELECT * FROM region_places WHERE place_id = ?1',
+    return _queryAdapter.query('SELECT * FROM region_places WHERE placeId = ?1',
         mapper: (Map<String, Object?> row) => RegionPlace(
             id: row['id'] as int?,
-            region_id: row['region_id'] as int,
-            place_id: row['place_id'] as String,
-            name: row['name'] as String?,
+            regionId: row['regionId'] as int,
+            placeId: row['placeId'] as int,
             lat: row['lat'] as double?,
             lng: row['lng'] as double?,
             desc: row['desc'] as String?,
-            category: row['category'] as String?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String),
             image: row['image'] as String?,
-            search_id: row['search_id'] as int?),
+            search_id: row['search_id'] as int?,
+            name: row['name'] as String),
         arguments: [placeId]);
   }
 
   @override
   Future<void> deletePlacesByRegion(int regionId) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM region_places WHERE region_id = ?1',
+        'DELETE FROM region_places WHERE regionId = ?1',
         arguments: [regionId]);
   }
 

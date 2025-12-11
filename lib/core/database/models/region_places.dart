@@ -16,7 +16,7 @@ class RegionPlace extends PlaceModel {
     super.lat,
     super.lng,
     super.desc,
-    super.categories,
+   required super.categories,
     super.image,
     this.search_id,
     required super.name,

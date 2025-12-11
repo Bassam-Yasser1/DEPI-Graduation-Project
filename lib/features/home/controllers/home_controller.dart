@@ -87,6 +87,7 @@ class HomeController extends GetxController {
           lng: element.lng,
           image: element.image,
           desc: element.desc,
+          categories: element.categories,
         ),
       );
     }
