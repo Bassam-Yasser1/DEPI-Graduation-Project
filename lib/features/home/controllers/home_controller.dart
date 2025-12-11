@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Boslah/core/functions/get_postion.dart';
 import 'package:Boslah/core/widgets/app_dialog.dart';
 import 'package:Boslah/models/filter_model.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
+import '../../../core/database/models/region_requests.dart';
 import '../../../core/services/api_services/api_services.dart';
+import '../../../main.dart';
 
 class HomeController extends GetxController {
   final searchController = TextEditingController();
@@ -92,11 +96,79 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
+  double distanceInMeters(double lat1, double lon1, double lat2, double lon2) {
+    const R = 6371000;
+
+    final dLat = _degToRad(lat2 - lat1);
+    final dLon = _degToRad(lon2 - lon1);
+
+    final a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degToRad(lat1)) *
+            cos(_degToRad(lat2)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+
+    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return R * c;
+  }
+
+  double _degToRad(double deg) => deg * pi / 180;
+
+
+  Future<RegionRequest?> getNearbyRequest(
+      double lat,
+      double lng,
+      double thresholdMeters,
+      ) async {
+    final all = await database.regionrequestdao.selectRequests();
+
+    print('Found ${all.length} region_requests in DB');
+
+    for (final r in all) {
+      final dist = distanceInMeters(lat, lng, r.lat, r.lng);
+      print('Request ${r.region_id} distance = $dist');
+
+      if (dist < thresholdMeters) {
+        final placesForReq =
+        await database.regionplacedao.selectRegionPlaces(r.region_id!);
+
+        print(
+            'Request ${r.region_id} has ${placesForReq.length} places in DB');
+
+        if (placesForReq.isNotEmpty) {
+          return r;
+        }
+      }
+    }
+
+    return null;
+  }
+
+
+
   Future<void> loadAll() async {
     final Position? position;
     try {
       position = await getPosition();
       isLoading.value = true;
+
+      final nearbyRequest = await getNearbyRequest(position.latitude, position.longitude, 500);
+
+      if (nearbyRequest != null) {
+        print("Using cached data from request ${nearbyRequest.region_id}");
+
+        viewedPlaces.value = await database.regionplacedao
+            .selectRegionPlaces(nearbyRequest.region_id!);
+
+        allPlaces.value = viewedPlaces;
+
+        print('Loaded ${viewedPlaces.value.length} places from cache');
+        isLoading.value = false;
+        return;
+      }
+
+
 
       final data = await api.getPlaces(
         lat: position.latitude,
