@@ -42,7 +42,7 @@ import 'features/home/controllers/search_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Gemini.init(apiKey: 'AIzaSyCsiZ3YneeGOqFzMAD6Qj9gKybnx6h8WM4');
+  Gemini.init(apiKey: 'AIzaSyDudJChclladS_XBDkW3k1BBZLIoVwbSjU');
 
   await CasheHelper().init();
   await SystemChrome.setPreferredOrientations([

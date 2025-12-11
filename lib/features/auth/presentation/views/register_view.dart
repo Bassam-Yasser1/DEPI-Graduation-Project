@@ -94,6 +94,7 @@ class RegisterView extends GetView<RegisterController> {
                                   email: controller.gmailController.text,
                                   password: controller.passwordController.text,
                                 );
+                                // controller.onRegisterButtonPressed;
                                 Get.back();
 
                                 showSnackBar(

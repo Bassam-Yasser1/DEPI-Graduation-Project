@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../../../core/services/api_services/api_services1.1.dart';
+import '../../../location.dart';
 
 class HomeController extends GetxController {
   final searchController = TextEditingController();
@@ -54,10 +55,10 @@ class HomeController extends GetxController {
   }
 
   void loadAll() async {
-    // position.value= await Location().getPosition();
+    position.value = await Location().getPosition();
     final data = await api.getPlacesWithDetails(
-      lat: 29.979235,
-      long: 31.134202,
+      lat: position.value!.latitude,
+      long: position.value!.longitude,
     );
     places.value =
         data?.where((p) {
@@ -76,7 +77,11 @@ class HomeController extends GetxController {
         [];
 
     final regionId = await database.regionrequestdao.insertRegionRequest(
-      RegionRequest(lat: 29.979235, lng: 31.134202),
+      // RegionRequest(lat: 29.979235, lng: 31.134202),
+      RegionRequest(
+        lat: position.value!.latitude,
+        lng: position.value!.longitude,
+      ),
     );
 
     List<RegionPlace> list = [];
