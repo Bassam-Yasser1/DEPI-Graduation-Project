@@ -66,7 +66,7 @@ class DetailsView extends GetView<DetailsController> {
                               //   controller.addToFav();
                               // }
                               // controller.favorite.toggle();
-                              try {
+                              // try {
                                 if (controller.favorite.value) {
                                   await controller.removeFromFav();
                                 } else {
@@ -74,9 +74,9 @@ class DetailsView extends GetView<DetailsController> {
                                 }
 
                                 controller.favorite.toggle();
-                              } catch (e) {
-                                showSnackBar(context, e.toString());
-                              }
+                              // } catch (e) {
+                              //   showSnackBar(context, e.toString());
+                              // }
                             },
                             icon: controller.favorite.value
                                 ? const Icon(

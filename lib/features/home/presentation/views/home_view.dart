@@ -21,11 +21,10 @@ class HomeView extends GetView<HomeController> {
         onPressed: () {
           Get.toNamed(Routes.chatbot);
         },
-        backgroundColor: AppColors.main, // أو أي لون تحبه
-        child: Icon(
-          Icons.smart_toy,
-        ), // أيقونة AI، ممكن تغيرها لأي أيقونة تناسبك
-        tooltip: 'Chatbot',
+        backgroundColor:
+            AppColors.main, // أيقونة AI، ممكن تغيرها لأي أيقونة تناسبك
+        tooltip: 'Chatbot', // أو أي لون تحبه
+        child: const Icon(Icons.smart_toy),
       ),
       body: SafeArea(
         child: Padding(

@@ -1,7 +1,8 @@
 import 'package:depi_graduation_project/core/database/models/region_places.dart';
 import 'package:depi_graduation_project/core/database/models/region_requests.dart';
+import 'package:depi_graduation_project/core/functions/get_postion.dart';
 import 'package:depi_graduation_project/core/services/api_services/geoapify_services.dart';
-import 'package:depi_graduation_project/location.dart';
+import 'package:depi_graduation_project/core/widgets/app_dialog.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:depi_graduation_project/main.dart';
@@ -27,7 +28,6 @@ class HomeController extends GetxController {
   final geoapify = Get.find<GeoapifyService>();
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     loadAll();
   }
@@ -40,58 +40,63 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadAll() async {
-    final Position? position = await Location().getPosition();
-    final data = await api.getPlacesWithDetails(
-      lat: position!.latitude,
-      long: position.longitude,
-    );
-
-    final geoapifyData = await geoapify.getPlaces(
-      lat: position.latitude,
-      lon: position.longitude,
-    );
-
-    if (data != null && geoapifyData != null) {
-      data.addAll(geoapifyData);
-      data.shuffle();
-    }
-
-    places.value =
-        data?.where((p) {
-          if (p.desc == null || p.desc!.trim().isEmpty) {
-            return false;
-          }
-
-          return true;
-          // final title = p.title.toLowerCase();
-          // final desc = p.description!.toLowerCase();
-          // return keywords.any((k) {
-          //   final key = k.toLowerCase();
-          //   return title.toLowerCase().contains(key) || desc.toLowerCase().contains(key);
-          // });
-        }).toList() ??
-        [];
-
-    final regionId = await database.regionrequestdao.insertRegionRequest(
-      RegionRequest(lat: 29.979235, lng: 31.134202),
-    );
-
-    List<RegionPlace> list = [];
-    for (var element in data!) {
-      list.add(
-        RegionPlace(
-          name: element.name,
-          regionId: regionId,
-          placeId: element.placeId,
-          lat: element.lat,
-          lng: element.lng,
-          image: element.image,
-          desc: element.desc,
-          categories: element.categories,
-        ),
+    final Position? position;
+    try {
+      position = await getPosition();
+      final data = await api.getPlacesWithDetails(
+        lat: position.latitude,
+        long: position.longitude,
       );
+
+      final geoapifyData = await geoapify.getPlaces(
+        lat: position.latitude,
+        lon: position.longitude,
+      );
+
+      if (data != null && geoapifyData != null) {
+        data.addAll(geoapifyData);
+        data.shuffle();
+      }
+
+      places.value =
+          data?.where((p) {
+            if (p.desc == null || p.desc!.trim().isEmpty) {
+              return false;
+            }
+
+            return true;
+            // final title = p.title.toLowerCase();
+            // final desc = p.description!.toLowerCase();
+            // return keywords.any((k) {
+            //   final key = k.toLowerCase();
+            //   return title.toLowerCase().contains(key) || desc.toLowerCase().contains(key);
+            // });
+          }).toList() ??
+          [];
+
+      final regionId = await database.regionrequestdao.insertRegionRequest(
+        RegionRequest(lat: 29.979235, lng: 31.134202),
+      );
+
+      List<RegionPlace> list = [];
+      for (var element in data!) {
+        list.add(
+          RegionPlace(
+            name: element.name,
+            regionId: regionId,
+            placeId: element.placeId,
+            lat: element.lat,
+            lng: element.lng,
+            image: element.image,
+            desc: element.desc,
+            categories: element.categories,
+          ),
+        );
+      }
+      await database.regionplacedao.insertRespPlaces(list);
+    } on String catch (e) {
+      appDialog(msg: e);
     }
-    await database.regionplacedao.insertRespPlaces(list);
   }
 
   Future<void> refreshPlaces() async {

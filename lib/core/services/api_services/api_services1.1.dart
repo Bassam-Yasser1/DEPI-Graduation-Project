@@ -8,7 +8,12 @@ class ApiServices {
   factory ApiServices() => _instance;
   ApiServices._internal();
 
-  final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 4)));
+  final wikiDio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 4),
+      baseUrl: "https://en.wikipedia.org/w/api.php",
+    ),
+  );
 
   final cancelToken = CancelToken();
 
@@ -16,8 +21,7 @@ class ApiServices {
     cancelToken.cancel();
   }
 
-  final baseUrl = "https://en.wikipedia.org/w/api.php";
-  final rest = "https://en.wikipedia.org/api/rest_v1/page/summary/";
+  // final rest = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
   Future<List<PlaceModel>?> getPlacesWithDetails({
     required double lat,
@@ -25,9 +29,10 @@ class ApiServices {
   }) async {
     if (await hasInternet()) {
       try {
-        final response = await dio.get(
+        final response = await wikiDio.get(
+          "https://en.wikipedia.org/w/api.php",
           cancelToken: cancelToken,
-          baseUrl,
+
           queryParameters: {
             "action": "query",
             "generator": "geosearch",
@@ -66,8 +71,8 @@ class ApiServices {
   Future<List<PlaceModel>?> searchPlacesWithImages(String title) async {
     if (await hasInternet()) {
       try {
-        final response = await dio.get(
-          baseUrl,
+        final response = await wikiDio.get(
+          "https://en.wikipedia.org/w/api.php",
           queryParameters: {
             "action": "query",
             "generator": "search",
