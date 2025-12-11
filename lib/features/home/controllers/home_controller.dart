@@ -1,9 +1,11 @@
 import 'package:depi_graduation_project/core/database/models/region_places.dart';
 import 'package:depi_graduation_project/core/database/models/region_requests.dart';
+import 'package:depi_graduation_project/core/services/api_services/geoapify_services.dart';
+import 'package:depi_graduation_project/location.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:depi_graduation_project/main.dart';
-import 'package:flutter/cupertino.dart' hide Page;
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,6 @@ import '../../../location.dart';
 
 class HomeController extends GetxController {
   final searchController = TextEditingController();
-  final position = Rxn<Position>();
   final places = <PlaceModel>[].obs;
   final museums = <PlaceModel>[].obs;
   final restaurant = <PlaceModel>[].obs;
@@ -22,24 +23,9 @@ class HomeController extends GetxController {
     FilterModel(text: 'Museums', icon: Icons.museum),
     FilterModel(text: 'Restaurants', icon: Icons.restaurant_sharp),
   ];
-  // final keywords = [
-  //   "sphinx"
-  //   "ancient"
-  //   "mosque",
-  //   "museum",
-  //   "park",
-  //   "temple",
-  //   "pyramid",
-  //   "fort",
-  //   "castle",
-  //   "citadel",
-  //   "historical",
-  //   "archaeological",
-  //   "landmark",
-  //   "tourist",
-  // ];
 
   final api = Get.find<ApiServices>();
+  final geoapify = Get.find<GeoapifyService>();
   @override
   void onInit() {
     // TODO: implement onInit
@@ -54,12 +40,23 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void loadAll() async {
-    position.value = await Location().getPosition();
+  Future<void> loadAll() async {
+    final Position? position = await Location().getPosition();
     final data = await api.getPlacesWithDetails(
-      lat: position.value!.latitude,
-      long: position.value!.longitude,
+      lat: position!.latitude,
+      long: position.longitude,
     );
+
+    final geoapifyData = await geoapify.getPlaces(
+      lat: position.latitude,
+      lon: position.longitude,
+    );
+
+    if (data != null && geoapifyData != null) {
+      data.addAll(geoapifyData);
+      data.shuffle();
+    }
+
     places.value =
         data?.where((p) {
           if (p.desc == null || p.desc!.trim().isEmpty) {
@@ -78,23 +75,28 @@ class HomeController extends GetxController {
 
     final regionId = await database.regionrequestdao.insertRegionRequest(
       // RegionRequest(lat: 29.979235, lng: 31.134202),
-      RegionRequest(
-        lat: position.value!.latitude,
-        lng: position.value!.longitude,
-      ),
+      RegionRequest(lat: position.latitude, lng: position.longitude),
     );
 
     List<RegionPlace> list = [];
     for (var element in data!) {
       list.add(
         RegionPlace(
-          region_id: regionId,
-          place_id: element.placeId.toString(),
+          name: element.name,
+          regionId: regionId,
+          placeId: element.placeId,
           lat: element.lat,
           lng: element.lng,
+          image: element.image,
+          desc: element.desc,
+          categories: element.categories,
         ),
       );
     }
     await database.regionplacedao.insertRespPlaces(list);
+  }
+
+  Future<void> refreshPlaces() async {
+    await loadAll();
   }
 }

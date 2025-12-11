@@ -51,25 +51,45 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            Gap(20.h),
-            const Column(children: [UserInfo(), Gap(10), AccountInfo()]),
-            Gap(30.h),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              Gap(20.h),
+              const Column(children: [UserInfo(), Gap(10), AccountInfo()]),
+              Gap(30.h),
 
-            AppButton(
-              child: Text(
-                'Logout',
-                style: AppTextStyle.regular20.copyWith(color: Colors.white),
+              AppButton(
+                child: Obx(() {
+                  return controller.isLoading.value
+                      ? const SizedBox(
+                    height: 22,
+                    width: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                      : Text(
+                    'Logout',
+                    style: AppTextStyle.regular20.copyWith(color: Colors.white),
+                  );
+                }),
+                onPressed: () async {
+                  try {
+                    controller.isLoading.value = true;
+                    await AuthService().logout();
+                    Get.offNamed('/login');
+                  } catch (e) {
+                    Get.snackbar("Error", "Something went wrong while logging out");
+                  } finally {
+                    controller.isLoading.value = false;
+                  }
+                },
               ),
-              onPressed: () async {
-                await AuthService().logout();
-                Get.offNamed('/login');
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

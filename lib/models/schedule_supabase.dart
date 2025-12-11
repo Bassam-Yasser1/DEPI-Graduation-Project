@@ -1,36 +1,23 @@
 import 'package:depi_graduation_project/models/schedule_model.dart';
 
 class ScheduleSupabase extends ScheduleModel {
-  final int? scheduleId;
   final int? notificationId; // NEW
 
   ScheduleSupabase({
-    this.scheduleId,
+    super.scheduleId,
     this.notificationId, // FIXED
-    required int placeId,
-    required String date,
-    required String hour,
-    required String? note,
-    required bool isDone,
-    required int createdAt,
-    required String? userId,
-    required double? lat,
-    required double? lng,
-    required String? image,
-    required String? name,
-  }) : super(
-         placeId: placeId,
-         date: date,
-         hour: hour,
-         name: name,
-         note: note,
-         isDone: isDone,
-         createdAt: createdAt,
-         userId: userId,
-         lat: lat,
-         lng: lng,
-         image: image,
-       );
+    required super.placeId,
+    required super.date,
+    required super.hour,
+    required super.isDone,
+    required super.createdAt,
+    required super.userId,
+    required super.lat,
+    required super.lng,
+    required super.image,
+    required super.name,
+    required super.note,
+  });
 
   factory ScheduleSupabase.fromMap(Map<String, dynamic> map) {
     return ScheduleSupabase(
@@ -39,7 +26,7 @@ class ScheduleSupabase extends ScheduleModel {
       placeId: map['place_id'] as int,
       date: map['date'] as String,
       hour: map['hour'] as String,
-      note: map['note'] as String?,
+      note: map['note'] as String,
       isDone: map['is_done'] as bool? ?? false,
       createdAt: map['created_at'] as int,
       userId: map['user_id'] as String?,

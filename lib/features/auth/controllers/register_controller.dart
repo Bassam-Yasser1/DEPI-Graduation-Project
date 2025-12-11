@@ -17,15 +17,24 @@ class RegisterController extends GetxController {
   final see = true.obs;
   final auth = AuthService();
   final formKey = GlobalKey<FormState>();
+
+  final isLoading = false.obs;
+
   Future<void> registerUser({
     required String fullName,
     required String email,
     required String password,
   }) async {
-    if (await hasInternet()) {
-      await auth.register(fullName, email, password);
-    } else {
+    if (!await hasInternet()) {
       throw AppException(msg: "Please Check your internet connection");
+    }
+    try {
+      isLoading.value = true;
+      await auth.register(fullName, email, password);
+    } catch (e) {
+      rethrow;
+    } finally {
+      isLoading.value = false;
     }
   }
 
