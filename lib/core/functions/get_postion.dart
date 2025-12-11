@@ -6,9 +6,9 @@ Future<Position> getPosition() async {
 
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    throw  "Please Open Location";
+    throw "Please Open Location";
   }
-
+  print('rrrrrrrrrrr');
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
@@ -20,6 +20,6 @@ Future<Position> getPosition() async {
   if (permission == LocationPermission.deniedForever) {
     throw 'Location Permanently Denied';
   }
-
+  print('dddddddddddddd');
   return await Geolocator.getCurrentPosition();
 }

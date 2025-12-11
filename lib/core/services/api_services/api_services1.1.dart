@@ -96,7 +96,7 @@ class ApiServices {
             features.map((f) => PlaceModel.fromJson(f)).toList(),
           );
         }
-
+        returnedList.shuffle();
         return returnedList;
       } on DioException catch (e) {
         if (e.type == DioExceptionType.connectionTimeout) {

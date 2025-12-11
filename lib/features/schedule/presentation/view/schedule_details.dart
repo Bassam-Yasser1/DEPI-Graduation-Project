@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:depi_graduation_project/core/functions/is_dark.dart';
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/utilities/app_colors.dart';
 import '../../../../core/utilities/app_text_style.dart';
 import '../../../../core/widgets/app_button.dart';
 
@@ -19,36 +22,26 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ------------------ IMAGE ------------------
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: place.image != null
-                      ? Image.network(
-                          place.image!,
-                          height: 260,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(
-                          height: 260,
-                          width: double.infinity,
-                          color: Colors.grey[300],
-                          child: const Icon(
-                            Icons.image_not_supported,
-                            size: 50,
-                          ),
-                        ),
+                  child: CachedNetworkImage(
+                    height: 260,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    imageUrl: place.image!,
+                  ),
                 ),
 
                 Gap(20.h),
 
                 // ------------------ NAME ------------------
                 Text(
-                  place.name ?? 'Unknown Place',
+                  place.name!,
                   style: TextStyle(
                     fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
@@ -60,6 +53,7 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                 // ------------------ DATE + TIME ------------------
                 Row(
                   children: [
+                    const Spacer(flex: 2),
                     Icon(Icons.calendar_today, color: Colors.grey.shade600),
                     Gap(8.w),
                     Text(
@@ -69,9 +63,9 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                         color: Colors.grey.shade700,
                       ),
                     ),
-                    Gap(20.w),
+                    const Spacer(flex: 2),
                     Icon(Icons.access_time, color: Colors.grey.shade600),
-                    Gap(8.w),
+                    Gap(10.w),
                     Text(
                       place.hour,
                       style: TextStyle(
@@ -79,13 +73,13 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                         color: Colors.grey.shade700,
                       ),
                     ),
+                    const Spacer(flex: 2),
                   ],
                 ),
 
-                Gap(25.h),
+                Gap(35.h),
 
                 // ------------------ NOTE TITLE ------------------
-                Gap(10.h),
 
                 // ------------------ NOTE VIEW / EDIT ------------------
                 // ------------------ NOTES CARD ------------------
@@ -96,7 +90,6 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Colors.grey.shade300),
                     ),
@@ -169,7 +162,7 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                             ),
                             child: TextField(
                               controller: controller.noteCont,
-                              maxLines: 6,
+                              maxLines: 5,
                               decoration: const InputDecoration(
                                 hintText: "Add your notes about this place...",
                                 border: InputBorder.none,
@@ -179,25 +172,12 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                           Gap(16.h),
 
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.updateNote(
-                                      place.scheduleId!,
-                                      controller.noteCont.text,
-                                    );
-                                    controller.editorIndicator.toggle();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xffDE7254),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 14,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
+                              SizedBox(
+                                width: (Get.width - 32 - 24 - 24) / 2,
+
+                                child: AppButton(
                                   child: Text(
                                     "Save Note",
                                     style: TextStyle(
@@ -205,33 +185,41 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                                       fontSize: 16.sp,
                                     ),
                                   ),
+                                  onPressed: () {
+                                    controller.updateNote(
+                                      place.scheduleId!,
+                                      controller.noteCont.text,
+                                    );
+                                    controller.editorIndicator.toggle();
+                                  },
                                 ),
                               ),
 
-                              Gap(12.w),
+                              SizedBox(
+                                width: (Get.width - 32 - 24 - 24) / 2,
 
-                              Expanded(
-                                child: OutlinedButton(
+                                child: AppButton(
                                   onPressed: () {
                                     controller.editorIndicator.value = false;
                                   },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 14,
-                                    ),
-                                    side: BorderSide(
-                                      color: Colors.grey.shade400,
-                                    ),
+
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: AppColors.main,
+                                    backgroundColor: isDark()
+                                        ? const Color(0xff2A2A2A)
+                                        : Colors.white,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(10),
+                                      side: const BorderSide(
+                                        color: AppColors.main,
+                                        width: 2.5,
+                                      ),
                                     ),
                                   ),
                                   child: Text(
                                     "Cancel",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 16.sp,
-                                    ),
+                                    style: TextStyle(fontSize: 16.sp),
                                   ),
                                 ),
                               ),
@@ -264,125 +252,52 @@ class ScheduleDetails extends GetView<ScheduleDetailsController> {
                 Gap(10.h),
 
                 // ------------------ REMOVE FROM SCHEDULE ------------------
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                    "Remove Schedule",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-
-                                  Gap(12.h),
-
-                                  const Text(
-                                    "Are you sure you want to remove this\nfrom your schedule?",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-
-                                  Gap(22.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Expanded(
-                                        child: OutlinedButton(
-                                          onPressed: () => Get.back(),
-                                          style: OutlinedButton.styleFrom(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 12,
-                                            ),
-                                            side: BorderSide(
-                                              color: Colors.red.shade300,
-                                              width: 2,
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                              color: Colors.red.shade400,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                      Gap(12.w),
-
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            await controller.deleteSchedule(
-                                              place.scheduleId!,
-                                            );
-                                            Get.back();
-                                            Get.back();
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.redAccent,
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 12,
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                            ),
-                                          ),
-                                          child: const Text(
-                                            "Remove",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-
-                    icon: const Icon(Icons.delete_forever, color: Colors.white),
-                    label: const Text(
-                      "Remove from Schedule",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                AppButton(
+                  onPressed: () {
+                    Get.dialog(
+                      AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        title: const Text('Remove Schedule'),
+                        content: const Text(
+                          "Are you sure you want to remove \nthis from your schedule?",
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text('cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              Get.back();
+                              await controller.deleteSchedule(
+                                place.scheduleId!,
+                              );
+                              Get.back();
+                            },
+                            child: const Text('Remove'),
+                          ),
+                        ],
                       ),
-                      backgroundColor: Colors.red,
+                    );
+                  },
+
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: AppColors.main,
+                    backgroundColor: isDark()
+                        ? const Color(0xff2A2A2A)
+                        : Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(10),
+                      side: const BorderSide(color: AppColors.main, width: 2.5),
                     ),
+                  ),
+                  child: Text(
+                    "Remove From Schedule",
+                    style: TextStyle(fontSize: 16.sp),
                   ),
                 ),
               ],

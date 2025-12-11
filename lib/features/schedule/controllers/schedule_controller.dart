@@ -17,7 +17,6 @@ class ScheduleController extends GetxController {
   final allSchedules = <ScheduleModel>[].obs;
 
   final error = RxnString();
-  final selectedCard = 1.obs;
   final List<FilterModel> filterList = [];
   var today = DateTime.now().obs;
 
@@ -80,12 +79,12 @@ class ScheduleController extends GetxController {
     final userId = cloud.auth.currentUser!.id;
     final localList = await database.scheduledao.selectSchedules(userId);
 
-    localList.sort((a, b) {
-      final dtA = combineDateAndTime(a.date, a.hour);
-      final dtB = combineDateAndTime(b.date, b.hour);
-      log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
-      return dtA.compareTo(dtB);
-    });
+    // localList.sort((a, b) {
+    //   final dtA = combineDateAndTime(a.date, a.hour);
+    //   final dtB = combineDateAndTime(b.date, b.hour);
+    //   log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
+    //   return dtA.compareTo(dtB);
+    // });
     if (localList.isNotEmpty) {
       allSchedules.value = localList;
       viewedSchedules.value = localList;

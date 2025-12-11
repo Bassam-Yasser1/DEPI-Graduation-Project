@@ -1,10 +1,7 @@
-import 'package:depi_graduation_project/core/database/models/region_places.dart';
-import 'package:depi_graduation_project/core/database/models/region_requests.dart';
 import 'package:depi_graduation_project/core/functions/get_postion.dart';
 import 'package:depi_graduation_project/core/widgets/app_dialog.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
-import 'package:depi_graduation_project/main.dart';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,7 +10,6 @@ import 'package:get/get.dart';
 import '../../../core/services/api_services/api_services1.1.dart';
 
 class HomeController extends GetxController {
-  final searchController = TextEditingController();
   final places = <PlaceModel>[].obs;
   final museums = <PlaceModel>[].obs;
   final restaurant = <PlaceModel>[].obs;
@@ -26,13 +22,14 @@ class HomeController extends GetxController {
   final api = Get.find<ApiServices>();
   @override
   void onInit() {
-    super.onInit();
+    print('init');
     loadAll();
+
+    super.onInit();
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
     api.cancelToken;
     super.onClose();
   }
@@ -45,9 +42,7 @@ class HomeController extends GetxController {
         lat: position.latitude,
         long: position.longitude,
       );
-
-
-
+      print("pppppppppppppppppppp");
 
       places.value =
           data?.where((p) {
@@ -65,26 +60,26 @@ class HomeController extends GetxController {
           }).toList() ??
           [];
 
-      final regionId = await database.regionrequestdao.insertRegionRequest(
-        RegionRequest(lat: 29.979235, lng: 31.134202),
-      );
+      // final regionId = await database.regionrequestdao.insertRegionRequest(
+      //   RegionRequest(lat: 29.979235, lng: 31.134202),
+      // );
 
-      List<RegionPlace> list = [];
-      for (var element in data!) {
-        list.add(
-          RegionPlace(
-            name: element.name,
-            regionId: regionId,
-            placeId: element.placeId,
-            lat: element.lat,
-            lng: element.lng,
-            image: element.image,
-            desc: element.desc,
-            categories: element.categories,
-          ),
-        );
-      }
-      await database.regionplacedao.insertRespPlaces(list);
+      // List<RegionPlace> list = [];
+      // for (var element in data!) {
+      //   list.add(
+      //     RegionPlace(
+      //       name: element.name,
+      //       regionId: regionId,
+      //       placeId: element.placeId,
+      //       lat: element.lat,
+      //       lng: element.lng,
+      //       image: element.image,
+      //       desc: element.desc,
+      //       categories: element.categories,
+      //     ),
+      // //   );
+      // }
+      // await database.regionplacedao.insertRespPlaces(list);
     } on String catch (e) {
       appDialog(msg: e);
     }
