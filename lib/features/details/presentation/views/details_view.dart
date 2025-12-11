@@ -47,8 +47,8 @@ class DetailsView extends GetView<DetailsController> {
                       bottom: 8,
                       right: 9,
                       child: Container(
-                        width: 70,
-                        height: 70,
+                        width: 65,
+                        height: 65,
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -57,15 +57,14 @@ class DetailsView extends GetView<DetailsController> {
                           return IconButton(
                             onPressed: () async {
                               try {
-                              controller.favorite.toggle();
-                              if (!controller.favorite.value) {
-                                await controller.removeFromFav();
-                              } else {
-                                await controller.addToFav();
-                              }
-
+                                controller.favorite.toggle();
+                                if (!controller.favorite.value) {
+                                  await controller.removeFromFav();
+                                } else {
+                                  await controller.addToFav();
+                                }
                               } catch (e) {
-                                showSnackBar( e.toString());
+                                showSnackBar(e.toString());
                               }
                             },
                             icon: controller.favorite.value
@@ -81,6 +80,28 @@ class DetailsView extends GetView<DetailsController> {
                                   ),
                           );
                         }),
+                      ),
+                    ),
+                    Positioned(
+                      left: 6,
+                      top: 6,
+                      child: Container(
+                        width: 65,
+                        height: 65,
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 34,
+                          ),
+                        ),
                       ),
                     ),
                   ],
