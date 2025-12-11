@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:depi_graduation_project/core/database/models/favorites.dart';
 import 'package:depi_graduation_project/core/database/models/schedules.dart';
 import 'package:depi_graduation_project/core/services/supabase_services/favorite_service.dart';
+import 'package:depi_graduation_project/core/services/supabase_services/schedule_service_supabase.dart';
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
 import 'package:depi_graduation_project/main.dart';
 import 'package:depi_graduation_project/models/favorite_supabase.dart';
+import 'package:depi_graduation_project/models/schedule_supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/services/notification_service.dart';
 import '../../../models/place_model.dart';
 import '../../favourite/controller/favourite_controller.dart';
 
@@ -32,7 +35,7 @@ class DetailsController extends GetxController {
       userId: cloud.auth.currentUser!.id,
       image: place.image,
       name: place.name,
-      desc: place.desc,
+      desc: place.desc, categories: place.categories,
     );
     final favoriteSupa = FavoriteSupabase(
       userId: cloud.auth.currentUser!.id,
@@ -41,9 +44,11 @@ class DetailsController extends GetxController {
       desc: place.desc,
       image: place.image,
       lat: place.lat,
-      lng: place.lng,
+      lng: place.lng, categories: place.categories,
     );
     await FavoritesService().addFavorite(favoriteSupa);
+    // await FavoritesService().addFavorite(addFavorite);
+
     await database.favoritedao.insertFavorite(addFavorite);
 
     try {
@@ -105,7 +110,7 @@ class DetailsController extends GetxController {
           desc: supabaseResult.desc,
           image: supabaseResult.image,
           lat: supabaseResult.lat,
-          lng: supabaseResult.lng,
+          lng: supabaseResult.lng, categories: supabaseResult.categories,
         ),
       );
       return true;
@@ -116,6 +121,8 @@ class DetailsController extends GetxController {
   }
 
   Future<void> addSchdule() async {
+    final int newNotificationId = NotificationService.generateId();
+    final uId = cloud.auth.currentUser!.id;
     final sch = Schedule(
       date: dateController.text,
       image: place.image ?? '',
@@ -124,20 +131,36 @@ class DetailsController extends GetxController {
       name: place.name,
       lat: place.lat,
       lng: place.lng,
-      userId: cloud.auth.currentUser!.id,
+      userId: uId,
       placeId: place.placeId,
       isDone: false,
       createdAt: DateTime.now().millisecondsSinceEpoch,
     );
     await database.scheduledao.insertSchedule(sch);
+    await ScheduleServiceSupabase().createSchedule(
+      ScheduleSupabase(
+        placeId: sch.placeId,
+        date: sch.date,
+        hour: sch.hour,
+        note: sch.note,
+        isDone: sch.isDone ?? false,
+        userId: uId,
+        lat: sch.lat,
+        lng: sch.lng,
+        image: sch.image,
+        name: sch.name,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        notificationId: newNotificationId,
+      ),
+    );
     dateController.clear();
     noteController.clear();
     timeController.clear();
     debugPrint('schedule object: ${sch.date}');
-    try {
+    // try {
       final schController = Get.find<ScheduleController>();
       await schController.loadData();
-    } catch (_) {}
+    // } catch (_) {}
   }
 
   @override
