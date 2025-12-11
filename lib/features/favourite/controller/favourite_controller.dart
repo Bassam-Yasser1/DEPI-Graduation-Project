@@ -54,6 +54,7 @@ class FavouritesController extends GetxController {
       final remoteList = await FavoritesService().getFavorites();
 
       allFavourits.value = remoteList;
+      filteredFav.value = allFavourits;
       if (allFavourits.isNotEmpty) {
         filteredFav.value = allFavourits;
         isFav.addAll(List.generate(allFavourits.length, (i) => true.obs));

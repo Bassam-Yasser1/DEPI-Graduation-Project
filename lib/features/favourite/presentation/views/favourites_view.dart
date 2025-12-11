@@ -10,6 +10,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/functions/is_dark.dart';
 import '../../../../core/utilities/app_colors.dart';
 
 class FavouritesView extends GetView<FavouritesController> {
@@ -42,9 +43,9 @@ class FavouritesView extends GetView<FavouritesController> {
                 const Gap(15),
                 SearchField(
                   controller: controller.sController,
-                  onPressed: () {
+                  onPressed:  () {
                     if (controller.sController.text.isNotEmpty) {
-                      controller.loadData();
+                         controller.loadData();
                     }
                   },
                 ),
@@ -87,24 +88,17 @@ class FavouritesView extends GetView<FavouritesController> {
                                       height: 80.h,
                                       child: CachedNetworkImage(
                                         imageUrl: fav.image ?? '',
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          10,
-                                                        ),
-                                                    image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                        placeholder: (context, url) =>
-                                            shimmerItem(),
-                                        errorWidget: (context, url, error) =>
-                                            shimmerItem(),
+                                        imageBuilder: (context, imageProvider) => Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) => shimmerItem(),
+                                        errorWidget: (context, url, error) => shimmerItem(),
                                       ),
                                     ),
                                     Expanded(
@@ -119,35 +113,33 @@ class FavouritesView extends GetView<FavouritesController> {
                                         ),
                                       ),
                                     ),
-                                    Obx(
-                                      () => IconButton(
-                                        onPressed: () {
-                                          if (controller.isFav[index].value) {
-                                            controller.addToDeletedList(
-                                              allFav[index].placeId,
-                                            );
-                                          } else {
-                                            controller.removeFromDeletedList(
-                                              allFav[index].placeId,
-                                            );
-                                          }
+                                    Obx(() => IconButton(
+                                      onPressed: () {
+                                        if (controller.isFav[index].value) {
+                                          controller.addToDeletedList(
+                                            allFav[index].placeId,
+                                          );
+                                        } else {
+                                          controller.removeFromDeletedList(
+                                            allFav[index].placeId,
+                                          );
+                                        }
 
-                                          controller.isFav[index].toggle();
-                                          print(controller.deleted);
-                                        },
-                                        icon: controller.isFav[index].value
-                                            ? const Icon(
-                                                Icons.favorite,
-                                                color: AppColors.main,
-                                                size: 32,
-                                              )
-                                            : const Icon(
-                                                Icons.favorite_border_outlined,
-                                                color: AppColors.main,
-                                                size: 32,
-                                              ),
+                                        controller.isFav[index].toggle();
+                                        print(controller.deleted);
+                                      },
+                                      icon: controller.isFav[index].value
+                                          ? const Icon(
+                                        Icons.favorite,
+                                        color: AppColors.main,
+                                        size: 32,
+                                      )
+                                          : const Icon(
+                                        Icons.favorite_border_outlined,
+                                        color: AppColors.main,
+                                        size: 32,
                                       ),
-                                    ),
+                                    )),
                                   ],
                                 ),
                               ),
@@ -170,14 +162,16 @@ class FavouritesView extends GetView<FavouritesController> {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
-      child: Container(
-        width: 80.w,
-        height: 80.h,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
+      child:
+          Container(
+            width: 80.w,
+            height: 80.h,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(10)
+            ),
+          ),
+
     );
   }
 }
