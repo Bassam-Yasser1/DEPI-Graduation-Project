@@ -93,14 +93,14 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadAll() async {
-    final Position? position;
+    // final Position? position;
     try {
-      position = await getPosition();
+      // position = await getPosition();
       isLoading.value = true;
 
       final data = await api.getPlaces(
-        lat: position.latitude,
-        long: position.longitude,
+        lat: 24.0889,
+        long: 32.8998,
       );
       print("pppppppppppppppppppp");
 
