@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 
-void showSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      duration: const Duration(seconds: 1, milliseconds: 500),
-      content: Center(child: Text(message)),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-
-      margin: EdgeInsets.only(
-        right: 30,
-        left: 30,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 30,
-      ),
-      elevation: 6,
+void showSnackBar(String message) {
+  Get.rawSnackbar(
+    messageText: Center(
+      child: Text(message, style: const TextStyle(fontSize: 16)),
     ),
-  );
+
+    duration: const Duration(seconds: 1, milliseconds: 800),
+
+    snackPosition: SnackPosition.BOTTOM,
+
+    margin: EdgeInsets.only(
+      right: 30,
+      left: 30,
+      bottom: Get.mediaQuery.viewInsets.bottom + 30,
+    ),
+
+    //       MediaQuery.of(
+    //         Get.context!,
+    //       ).viewInsets.bottom +
+    //       30,
+    // ),
+    borderRadius: 20,
+    animationDuration: const Duration(milliseconds: 300),
+
+    isDismissible: true,
+    dismissDirection: DismissDirection.horizontal,
+
+    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+
+    snackStyle: SnackStyle.FLOATING,
+  ); // Show snackbar for past time
 }

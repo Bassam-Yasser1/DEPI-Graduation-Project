@@ -103,11 +103,10 @@ class RegisterView extends GetView<RegisterController> {
                                         Get.back();
 
                                         showSnackBar(
-                                          context,
                                           "Account created successfully!",
                                         );
                                       } on AppException catch (e) {
-                                        showSnackBar(context, e.msg);
+                                        showSnackBar(e.msg);
                                       }
                                     }
                                   },

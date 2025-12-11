@@ -17,7 +17,7 @@ class ScheduleView extends GetView<ScheduleController> {
   Widget build(BuildContext context) {
     ever(controller.error, (msg) {
       if (msg != null) {
-        showSnackBar(context, msg);
+        showSnackBar( msg);
       }
     });
 

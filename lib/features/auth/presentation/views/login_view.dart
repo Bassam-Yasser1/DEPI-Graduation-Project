@@ -97,9 +97,9 @@ class LoginView extends GetView<LoginController> {
                                     Profile(userId: cloud.auth.currentUser!.id),
                                   );
 
-                                  showSnackBar(context, "Logged in successfully!");
+                                  showSnackBar( "Logged in successfully!");
                                 } on AppException catch (e) {
-                                  showSnackBar(context, e.msg);
+                                  showSnackBar( e.msg);
                                 }
 
                                 print(cloud.auth.currentUser);

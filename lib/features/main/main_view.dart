@@ -45,9 +45,9 @@ class MainView extends GetView<MainController> {
               controller.removeFavFromDB();
               controller.favControoller.deleted.clear();
             } on AppException catch (e) {
-              showSnackBar(context, e.msg);
+              showSnackBar(e.msg);
             } catch (e) {
-              showSnackBar(context, e.toString());
+              showSnackBar( e.toString());
             }
             controller.isFavPage = false;
             controller.favControoller.isFav.clear();

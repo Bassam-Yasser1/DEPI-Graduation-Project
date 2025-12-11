@@ -20,7 +20,7 @@ class FavouritesView extends GetView<FavouritesController> {
   Widget build(BuildContext context) {
     ever(controller.error, (msg) {
       if (msg != null) {
-        showSnackBar(context, msg);
+        showSnackBar( msg);
       }
     });
 
