@@ -43,13 +43,13 @@ class HomeController extends GetxController {
   Future<void> loadAll() async {
     final Position? position = await Location().getPosition();
     final data = await api.getPlacesWithDetails(
-      lat: position!.latitude,
-      long: position.longitude,
+      lat: position?.latitude ?? 29.979235,
+      long: position?.longitude ?? 31.134202,
     );
 
     final geoapifyData = await geoapify.getPlaces(
-      lat: position.latitude,
-      lon: position.longitude,
+      lat: position?.latitude ?? 29.979235,
+      lon: position?.longitude ?? 31.134202,
     );
 
     if (data != null && geoapifyData != null) {
@@ -75,7 +75,10 @@ class HomeController extends GetxController {
 
     final regionId = await database.regionrequestdao.insertRegionRequest(
       // RegionRequest(lat: 29.979235, lng: 31.134202),
-      RegionRequest(lat: position.latitude, lng: position.longitude),
+      RegionRequest(
+        lat: position?.latitude ?? 29.979235,
+        lng: position?.longitude ?? 31.134202,
+      ),
     );
 
     List<RegionPlace> list = [];
