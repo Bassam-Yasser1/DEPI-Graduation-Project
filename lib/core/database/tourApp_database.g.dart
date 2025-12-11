@@ -108,15 +108,17 @@ class _$tourDatabase extends tourDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `region_requests` (`region_id` INTEGER PRIMARY KEY AUTOINCREMENT, `lat` REAL NOT NULL, `lng` REAL NOT NULL, `timestamp` INTEGER)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `region_places` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `region_id` INTEGER NOT NULL, `search_id` INTEGER, `place_id` TEXT NOT NULL, `name` TEXT, `desc` TEXT, `category` TEXT, `image` TEXT, `lat` REAL, `lng` REAL)');
+            'CREATE TABLE IF NOT EXISTS `region_places` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `regionId` INTEGER NOT NULL, `searchId` INTEGER, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL, `categories` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `favorites` (`favId` INTEGER PRIMARY KEY AUTOINCREMENT, `addedAt` INTEGER, `userId` TEXT NOT NULL, `category` TEXT, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL)');
+            'CREATE TABLE IF NOT EXISTS `favorites` (`favId` INTEGER PRIMARY KEY AUTOINCREMENT, `addedAt` INTEGER, `userId` TEXT NOT NULL, `placeId` INTEGER NOT NULL, `name` TEXT NOT NULL, `desc` TEXT, `image` TEXT, `lat` REAL, `lng` REAL, `categories` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `schedules` (`scheduleId` INTEGER PRIMARY KEY AUTOINCREMENT, `placeId` INTEGER, `date` TEXT NOT NULL, `hour` TEXT NOT NULL, `note` TEXT NOT NULL, `name` TEXT, `isDone` INTEGER, `createdAt` INTEGER, `userId` TEXT, `lat` REAL, `lng` REAL, `image` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `schedules` (`placeId` INTEGER NOT NULL, `scheduleId` INTEGER PRIMARY KEY AUTOINCREMENT, `date` TEXT NOT NULL, `hour` TEXT NOT NULL, `note` TEXT NOT NULL, `name` TEXT, `isDone` INTEGER, `createdAt` INTEGER, `userId` TEXT, `lat` REAL, `lng` REAL, `image` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `search_history` (`seachId` INTEGER PRIMARY KEY AUTOINCREMENT, `query` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `userId` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `profile` (`userId` TEXT NOT NULL, `username` TEXT, `gmail` TEXT, `image` TEXT, PRIMARY KEY (`userId`))');
+        await database.execute(
+            'CREATE UNIQUE INDEX `index_schedules_placeId_date_hour` ON `schedules` (`placeId`, `date`, `hour`)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -228,15 +230,15 @@ class _$RegionPlacesDao extends RegionPlacesDao {
             'region_places',
             (RegionPlace item) => <String, Object?>{
                   'id': item.id,
-                  'region_id': item.region_id,
-                  'search_id': item.search_id,
-                  'place_id': item.place_id,
+                  'regionId': item.regionId,
+                  'searchId': item.searchId,
+                  'placeId': item.placeId,
                   'name': item.name,
                   'desc': item.desc,
-                  'category': item.category,
                   'image': item.image,
                   'lat': item.lat,
-                  'lng': item.lng
+                  'lng': item.lng,
+                  'categories': _categoriesConverter.encode(item.categories)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -250,43 +252,44 @@ class _$RegionPlacesDao extends RegionPlacesDao {
   @override
   Future<List<RegionPlace>> selectRegionPlaces(int regionId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM region_places WHERE region_id = ?1',
+        'SELECT * FROM region_places WHERE regionId = ?1',
         mapper: (Map<String, Object?> row) => RegionPlace(
             id: row['id'] as int?,
-            region_id: row['region_id'] as int,
-            place_id: row['place_id'] as String,
-            name: row['name'] as String?,
+            regionId: row['regionId'] as int,
+            placeId: row['placeId'] as int,
             lat: row['lat'] as double?,
             lng: row['lng'] as double?,
             desc: row['desc'] as String?,
-            category: row['category'] as String?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String),
             image: row['image'] as String?,
-            search_id: row['search_id'] as int?),
+            searchId: row['searchId'] as int?,
+            name: row['name'] as String),
         arguments: [regionId]);
   }
 
   @override
   Future<RegionPlace?> selectPlaceById(int placeId) async {
-    return _queryAdapter.query(
-        'SELECT * FROM region_places WHERE place_id = ?1',
+    return _queryAdapter.query('SELECT * FROM region_places WHERE placeId = ?1',
         mapper: (Map<String, Object?> row) => RegionPlace(
             id: row['id'] as int?,
-            region_id: row['region_id'] as int,
-            place_id: row['place_id'] as String,
-            name: row['name'] as String?,
+            regionId: row['regionId'] as int,
+            placeId: row['placeId'] as int,
             lat: row['lat'] as double?,
             lng: row['lng'] as double?,
             desc: row['desc'] as String?,
-            category: row['category'] as String?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String),
             image: row['image'] as String?,
-            search_id: row['search_id'] as int?),
+            searchId: row['searchId'] as int?,
+            name: row['name'] as String),
         arguments: [placeId]);
   }
 
   @override
   Future<void> deletePlacesByRegion(int regionId) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM region_places WHERE region_id = ?1',
+        'DELETE FROM region_places WHERE regionId = ?1',
         arguments: [regionId]);
   }
 
@@ -315,13 +318,13 @@ class _$FavoriteDao extends FavoriteDao {
                   'favId': item.favId,
                   'addedAt': item.addedAt,
                   'userId': item.userId,
-                  'category': item.category,
                   'placeId': item.placeId,
                   'name': item.name,
                   'desc': item.desc,
                   'image': item.image,
                   'lat': item.lat,
-                  'lng': item.lng
+                  'lng': item.lng,
+                  'categories': _categoriesConverter.encode(item.categories)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -339,13 +342,14 @@ class _$FavoriteDao extends FavoriteDao {
             favId: row['favId'] as int?,
             addedAt: row['addedAt'] as int?,
             userId: row['userId'] as String,
-            category: row['category'] as String?,
             placeId: row['placeId'] as int,
             name: row['name'] as String,
             desc: row['desc'] as String?,
             image: row['image'] as String?,
             lat: row['lat'] as double?,
-            lng: row['lng'] as double?),
+            lng: row['lng'] as double?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String)),
         arguments: [userId]);
   }
 
@@ -360,13 +364,14 @@ class _$FavoriteDao extends FavoriteDao {
             favId: row['favId'] as int?,
             addedAt: row['addedAt'] as int?,
             userId: row['userId'] as String,
-            category: row['category'] as String?,
             placeId: row['placeId'] as int,
             name: row['name'] as String,
             desc: row['desc'] as String?,
             image: row['image'] as String?,
             lat: row['lat'] as double?,
-            lng: row['lng'] as double?),
+            lng: row['lng'] as double?,
+            categories:
+                _categoriesConverter.decode(row['categories'] as String)),
         arguments: [uid, placeId]);
   }
 
@@ -408,26 +413,8 @@ class _$ScheduleDao extends ScheduleDao {
             database,
             'schedules',
             (Schedule item) => <String, Object?>{
-                  'scheduleId': item.scheduleId,
                   'placeId': item.placeId,
-                  'date': item.date,
-                  'hour': item.hour,
-                  'note': item.note,
-                  'name': item.name,
-                  'isDone': item.isDone == null ? null : (item.isDone! ? 1 : 0),
-                  'createdAt': item.createdAt,
-                  'userId': item.userId,
-                  'lat': item.lat,
-                  'lng': item.lng,
-                  'image': item.image
-                }),
-        _scheduleDeletionAdapter = DeletionAdapter(
-            database,
-            'schedules',
-            ['scheduleId'],
-            (Schedule item) => <String, Object?>{
                   'scheduleId': item.scheduleId,
-                  'placeId': item.placeId,
                   'date': item.date,
                   'hour': item.hour,
                   'note': item.note,
@@ -448,15 +435,13 @@ class _$ScheduleDao extends ScheduleDao {
 
   final InsertionAdapter<Schedule> _scheduleInsertionAdapter;
 
-  final DeletionAdapter<Schedule> _scheduleDeletionAdapter;
-
   @override
   Future<List<Schedule>> selectSchedules(String uid) async {
     return _queryAdapter.queryList(
         'SELECT * FROM schedules WHERE userId = ?1 ORDER BY date ASC, hour ASC',
         mapper: (Map<String, Object?> row) => Schedule(
             scheduleId: row['scheduleId'] as int?,
-            placeId: row['placeId'] as int?,
+            placeId: row['placeId'] as int,
             date: row['date'] as String,
             note: row['note'] as String,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
@@ -475,7 +460,7 @@ class _$ScheduleDao extends ScheduleDao {
     return _queryAdapter.query('SELECT * FROM schedules WHERE scheduleId = ?1',
         mapper: (Map<String, Object?> row) => Schedule(
             scheduleId: row['scheduleId'] as int?,
-            placeId: row['placeId'] as int?,
+            placeId: row['placeId'] as int,
             date: row['date'] as String,
             note: row['note'] as String,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
@@ -494,7 +479,7 @@ class _$ScheduleDao extends ScheduleDao {
     return _queryAdapter.queryList('SELECT * FROM schedules WHERE userId = ?1',
         mapper: (Map<String, Object?> row) => Schedule(
             scheduleId: row['scheduleId'] as int?,
-            placeId: row['placeId'] as int?,
+            placeId: row['placeId'] as int,
             date: row['date'] as String,
             note: row['note'] as String,
             isDone: row['isDone'] == null ? null : (row['isDone'] as int) != 0,
@@ -516,6 +501,23 @@ class _$ScheduleDao extends ScheduleDao {
   }
 
   @override
+  Future<void> updateNote(
+    String newNote,
+    int id,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE schedules SET note = ?1 WHERE scheduleId = ?2',
+        arguments: [newNote, id]);
+  }
+
+  @override
+  Future<void> deleteScheduleById(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM schedules WHERE scheduleId = ?1',
+        arguments: [id]);
+  }
+
+  @override
   Future<void> deleteAllSchedules(String uid) async {
     await _queryAdapter.queryNoReturn('DELETE FROM schedules WHERE userId = ?1',
         arguments: [uid]);
@@ -525,11 +527,6 @@ class _$ScheduleDao extends ScheduleDao {
   Future<int> insertSchedule(Schedule schedule) {
     return _scheduleInsertionAdapter.insertAndReturnId(
         schedule, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<int> deleteSchedule(Schedule schedule) {
-    return _scheduleDeletionAdapter.deleteAndReturnChangedRows(schedule);
   }
 }
 
@@ -623,3 +620,6 @@ class _$ProfileDao extends ProfileDao {
         user, OnConflictStrategy.ignore);
   }
 }
+
+// ignore_for_file: unused_element
+final _categoriesConverter = CategoriesConverter();
