@@ -4,7 +4,6 @@ import 'package:depi_graduation_project/core/services/supabase_services/auth_ser
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class RegisterController extends GetxController {
   final nameController = TextEditingController();
 

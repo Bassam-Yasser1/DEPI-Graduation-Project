@@ -1,11 +1,11 @@
-import 'package:depi_graduation_project/core/database/models/schedules.dart';
 import 'package:depi_graduation_project/features/schedule/controllers/schedule_controller.dart';
 import 'package:depi_graduation_project/main.dart';
+import 'package:depi_graduation_project/models/schedule_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ScheduleDetailsController extends GetxController {
-  late Schedule scheduleplace;
+  late ScheduleModel scheduleplace;
   final editorIndicator = false.obs;
 
   final note = ''.obs;
@@ -16,7 +16,7 @@ class ScheduleDetailsController extends GetxController {
   void onInit() {
     super.onInit();
 
-    scheduleplace = Get.arguments as Schedule;
+    scheduleplace = Get.arguments as ScheduleModel;
 
     note.value = scheduleplace.note;
 

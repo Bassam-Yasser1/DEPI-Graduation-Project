@@ -1,3 +1,4 @@
+
 import 'package:depi_graduation_project/models/place_model.dart';
 
 class FavoriteSupabase extends PlaceModel {

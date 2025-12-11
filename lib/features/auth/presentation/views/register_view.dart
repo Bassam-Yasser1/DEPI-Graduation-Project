@@ -90,38 +90,46 @@ class RegisterView extends GetView<RegisterController> {
                             onPressed: controller.isLoading.value
                                 ? null
                                 : () async {
-                              if (controller.formKey.currentState!.validate()) {
-                                try {
-                                  await controller.registerUser(
-                                    fullName: controller.nameController.text,
-                                    email: controller.gmailController.text,
-                                    password: controller.passwordController.text,
-                                  );
+                                    if (controller.formKey.currentState!
+                                        .validate()) {
+                                      try {
+                                        await controller.registerUser(
+                                          fullName:
+                                              controller.nameController.text,
+                                          email:
+                                              controller.gmailController.text,
+                                          password: controller
+                                              .passwordController
+                                              .text,
+                                        );
 
-                                  Get.back();
+                                        Get.back();
 
-                                  showSnackBar(context, "Account created successfully!");
-                                } on AppException catch (e) {
-                                  showSnackBar(context, e.msg);
-                                }
-                              }
-                            },
+                                        showSnackBar(
+                                          context,
+                                          "Account created successfully!",
+                                        );
+                                      } on AppException catch (e) {
+                                        showSnackBar(context, e.msg);
+                                      }
+                                    }
+                                  },
                             child: controller.isLoading.value
                                 ? const SizedBox(
-                              height: 22,
-                              width: 22,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
+                                    height: 22,
+                                    width: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
                                 : Text(
-                              'Register',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                color: Colors.white,
-                              ),
-                            ),
+                                    'Register',
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           );
                         }),
                         const Gap(20),
