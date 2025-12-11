@@ -16,3 +16,5 @@ class CategoriesConverter extends TypeConverter<List<String>, String> {
     return value.join(',');
   }
 }
+
+

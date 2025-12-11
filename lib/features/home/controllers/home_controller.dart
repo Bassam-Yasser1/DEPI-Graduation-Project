@@ -5,7 +5,7 @@ import 'package:depi_graduation_project/location.dart';
 import 'package:depi_graduation_project/models/filter_model.dart';
 import 'package:depi_graduation_project/models/place_model.dart';
 import 'package:depi_graduation_project/main.dart';
-import 'package:flutter/cupertino.dart' hide Page;
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -39,7 +39,7 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void loadAll() async {
+  Future<void> loadAll() async {
     final Position? position = await Location().getPosition();
     final data = await api.getPlacesWithDetails(
       lat: position!.latitude,
@@ -81,8 +81,8 @@ class HomeController extends GetxController {
       list.add(
         RegionPlace(
           name: element.name,
-          region_id: regionId,
-          place_id: element.placeId.toString(),
+          regionId: regionId,
+          placeId: element.placeId,
           lat: element.lat,
           lng: element.lng,
           image: element.image,
@@ -91,5 +91,9 @@ class HomeController extends GetxController {
       );
     }
     await database.regionplacedao.insertRespPlaces(list);
+  }
+
+  Future<void> refreshPlaces() async {
+    await loadAll();
   }
 }
