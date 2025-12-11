@@ -14,13 +14,21 @@ class GeminiService {
           //   "أنت مرشد سياحي خبير. جاوب بطريقة ودية ومفصلة. "
           //   "رد على السؤال بنفس اللغة التي كتب بها المستخدم.\nالسؤال: $question",
           // ),
+          // Part.text(
+          //   "أنت مرشد سياحي خبير. جاوب بطريقة ودية وواضحة. "
+          //   "انت بتكلم سائح و يجب عليك ان تزود السائح بمعلومات عن اماكن ليزورها في وجهته "
+          //   "اكتب إجابة مختصرة، لكن تضمّن كل المعلومات المهمة فقط. "
+          //   "استخدم جمل قصيرة ومباشرة. "
+          //   "رد على السؤال بنفس اللغة التي كتب بها المستخدم.\n"
+          //   "السؤال: $question",
+          // ),
           Part.text(
-            "أنت مرشد سياحي خبير. جاوب بطريقة ودية وواضحة. "
-            "انت بتكلم سائح و يجب عليك ان تزود السائح بمعلومات عن اماكن ليزورها في وجهته "
-            "اكتب إجابة مختصرة، لكن تضمّن كل المعلومات المهمة فقط. "
-            "استخدم جمل قصيرة ومباشرة. "
-            "رد على السؤال بنفس اللغة التي كتب بها المستخدم.\n"
-            "السؤال: $question",
+            "You are an expert tour guide. Answer in a friendly and clear way. "
+            "Reply to the question in the same language the user wrote it in.\n"
+            "You are talking to a tourist and you must provide the tourist with information about places to visit at their destination. "
+            "Write a short answer, but include only the important information. "
+            "Use short and direct sentences. "
+            "Question: $question",
           ),
         ],
       );

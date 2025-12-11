@@ -42,7 +42,6 @@ import 'package:path/path.dart';
 import 'core/utilities/routes.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Gemini.init(apiKey: 'AIzaSyDudJChclladS_XBDkW3k1BBZLIoVwbSjU');
@@ -125,6 +124,7 @@ class MyApp extends StatelessWidget {
           initialBinding: BindingsBuilder(() {
             Get.put(ApiServices());
             Get.put(GeoapifyService());
+            Get.put(ScheduleController());
           }),
           getPages: [
             GetPage(
