@@ -57,13 +57,13 @@ class DetailsView extends GetView<DetailsController> {
                           return IconButton(
                             onPressed: () async {
                               try {
-                              if (controller.favorite.value) {
+                              controller.favorite.toggle();
+                              if (!controller.favorite.value) {
                                 await controller.removeFromFav();
                               } else {
                                 await controller.addToFav();
                               }
 
-                              controller.favorite.toggle();
                               } catch (e) {
                                 showSnackBar( e.toString());
                               }

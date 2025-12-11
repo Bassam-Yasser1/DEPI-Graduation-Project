@@ -10,13 +10,13 @@ class searchController extends GetxController {
   final api = Get.find<ApiServices>();
 
   Future<void> loadData() async {
+    print('gooooooooooo');
     final data = await api.searchPlacesWithImages(sController.text);
     searchList.value =
         data?.where((p) {
           if (p.image == null) {
             return false;
           }
-
           return true;
           // final title = p.title.toLowerCase();
           // final desc = p.description!.toLowerCase();

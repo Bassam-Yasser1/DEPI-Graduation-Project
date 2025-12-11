@@ -24,8 +24,12 @@ class SearchView extends GetView<searchController> {
                 SearchField(
                   controller: controller.sController,
                   onPressed: () {
+                    print(";;;;;;;;;");
                     if (controller.sController.text.isNotEmpty) {
+                      print(";;;;;;;;;");
+
                       controller.loadData();
+                      print(";;;;;;;;;");
                     }
                   },
                 ),
