@@ -6,6 +6,14 @@ class Assets {
   /// assets/images/appIcon/1024.png
   static const String imagesAppIcon1024 = "assets/images/appIcon/1024.png";
 
+  /// Assets for imagesAppIconBranding
+  /// assets/images/appIcon/branding.png
+  static const String imagesAppIconBranding = "assets/images/appIcon/branding.png";
+
+  /// Assets for imagesAppIconSplash
+  /// assets/images/appIcon/splash.png
+  static const String imagesAppIconSplash = "assets/images/appIcon/splash.png";
+
   /// Assets for imagesDefaultPhotosAirport
   /// assets/images/default_photos/airport.jpg
   static const String imagesDefaultPhotosAirport = "assets/images/default_photos/airport.jpg";
@@ -15,8 +23,8 @@ class Assets {
   static const String imagesDefaultPhotosBeach = "assets/images/default_photos/beach.jpg";
 
   /// Assets for imagesDefaultPhotosCafe
-  /// assets/images/default_photos/Cafe.jpg
-  static const String imagesDefaultPhotosCafe = "assets/images/default_photos/Cafe.jpg";
+  /// assets/images/default_photos/cafe.jpg
+  static const String imagesDefaultPhotosCafe = "assets/images/default_photos/cafe.jpg";
 
   /// Assets for imagesDefaultPhotosEntertainment
   /// assets/images/default_photos/entertainment.jpg
@@ -51,8 +59,8 @@ class Assets {
   static const String imagesDefaultPhotosRestaurant = "assets/images/default_photos/restaurant.jpg";
 
   /// Assets for imagesDefaultPhotosShoppingMall
-  /// assets/images/default_photos/Shopping_mall.jpg
-  static const String imagesDefaultPhotosShoppingMall = "assets/images/default_photos/Shopping_mall.jpg";
+  /// assets/images/default_photos/shopping_mall.jpg
+  static const String imagesDefaultPhotosShoppingMall = "assets/images/default_photos/shopping_mall.jpg";
 
   /// Assets for imagesDefaultPhotosSport
   /// assets/images/default_photos/sport.jpg
@@ -63,8 +71,8 @@ class Assets {
   static const String imagesDefaultPhotosTourism = "assets/images/default_photos/tourism.jpeg";
 
   /// Assets for imagesDefaultPhotosZoo
-  /// assets/images/default_photos/Zoo.jpg
-  static const String imagesDefaultPhotosZoo = "assets/images/default_photos/Zoo.jpg";
+  /// assets/images/default_photos/zoo.jpg
+  static const String imagesDefaultPhotosZoo = "assets/images/default_photos/zoo.jpg";
   static const String databaseAsset = "assets/database/tourAppDB.db";
 
   /// Assets for imagesLogo

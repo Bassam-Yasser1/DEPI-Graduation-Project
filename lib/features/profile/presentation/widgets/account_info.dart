@@ -37,13 +37,11 @@ class AccountInfo extends GetView<ProfileController> {
               ),
             ),
             const Gap(15),
-            Obx(() {
-              return buildRow(
+            buildRow(
                 Icons.person,
                 massage: 'Full Name',
-                des: controller.fullName.value,
-              );
-            }),
+                des: cloud.auth.currentUser!.userMetadata?['username'],
+            ),
             const Gap(10),
             const Divider(color: Colors.grey),
             buildRow(

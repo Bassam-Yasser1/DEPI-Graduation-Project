@@ -76,7 +76,6 @@ class PlaceModel {
     return PlaceModel(placeId: 0, name: "Unknown", categories: []);
   }
   static String getDefaultPhoto(final List<String> categories) {
-
     if (categories.contains('airport')) {
       return Assets.imagesDefaultPhotosAirport;
     }
@@ -102,6 +101,10 @@ class PlaceModel {
     }
 
     if (categories.contains('entertainment')) {
+      if (categories.contains('entertainment.zoo')) {
+        return Assets.imagesDefaultPhotosZoo;
+      }
+
       return Assets.imagesDefaultPhotosEntertainment;
     }
 
@@ -121,9 +124,12 @@ class PlaceModel {
       return Assets.imagesDefaultPhotosNatural;
     }
 
+    // if (categories.contains('tourism')) {
+    //   return Assets.imagesDefaultPhotosMeseum;
+    // }
+
     return Assets.imagesDefaultPhotosNoImageAvailable;
   }
-
 
   bool isAssetPath(String path) {
     // يبدأ بـ assets/

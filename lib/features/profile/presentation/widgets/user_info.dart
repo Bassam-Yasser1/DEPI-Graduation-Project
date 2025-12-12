@@ -22,26 +22,24 @@ class UserInfo extends GetView<ProfileController> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              Obx(() {
-                return CircleAvatar(
-                  radius: 55.r,
-                  backgroundColor: AppColors.main,
-                  child: Text(
-                    controller.splitName(controller.fullName.value),
-                    style: AppTextStyle.bold24.copyWith(
-                      color: Colors.white,
-                      fontSize: 28.sp,
-                    ),
+               CircleAvatar(
+                radius: 55.r,
+                backgroundColor: AppColors.main,
+                child: Text(
+                  controller.splitName(cloud.auth.currentUser!.userMetadata?['username']),
+                  style: AppTextStyle.bold24.copyWith(
+                    color: Colors.white,
+                    fontSize: 28.sp,
                   ),
-                );
-              }),
+                ),
+              ),
+
               const Gap(10),
-              Obx(() {
-                return Text(
-                  controller.fullName.value,
+               Text(
+                  cloud.auth.currentUser!.userMetadata?['username'],
                   style: AppTextStyle.medium26,
-                );
-              }),
+               ),
+
               const Gap(5),
               Text(
                 cloud.auth.currentUser!.email ?? "",

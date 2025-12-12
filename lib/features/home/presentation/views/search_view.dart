@@ -37,12 +37,8 @@ class SearchView extends GetView<searchController> {
                     }
                   },
                 ),
-                Gap(15.h),
-                // Align(
-                //   alignment: const Alignment(-0.9, 1),
-                //   child: Text('Results', style: AppTextStyle.bold26),
-                // ),
-                Gap(10.h),
+                Gap(25.h),
+   
                 Expanded(
                   child: Obx(() {
                     if(controller.historySearch.isEmpty && controller.searchList.isEmpty ){
@@ -70,7 +66,7 @@ class SearchView extends GetView<searchController> {
                                   height: 60
                                   ,child: Card(
                                     elevation: 3,
-                                    color: AppColors.darkSurface,
+                                    // color: AppColors.darkSurface,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
@@ -96,7 +92,7 @@ class SearchView extends GetView<searchController> {
                         controller.searchList.isEmpty
                         ?  Center(child: Text('No place',              style: AppTextStyle.bold26.copyWith(
                                 color: const Color.fromARGB(147, 158, 158, 158),
-                                fontSize: 30.sp,
+                                fontSize: 28.sp,
                               ),))
                             :
                         Expanded(

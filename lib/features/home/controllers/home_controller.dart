@@ -36,7 +36,7 @@ class HomeController extends GetxController {
       FilterModel(
         text: 'All',
         onTap: () {
-          viewedPlaces.value = allPlaces;
+          viewedPlaces.value = List.from(allPlaces);
         },
       ),
       FilterModel(
@@ -88,8 +88,6 @@ class HomeController extends GetxController {
         },
       ),
     ]);
-
-    loadAll();
   }
 
   @override
@@ -167,16 +165,16 @@ class HomeController extends GetxController {
           nearbyRequest.region_id!,
         );
 
-        allPlaces.value = viewedPlaces;
+        allPlaces.value = List.from(viewedPlaces);
 
         isLoading.value = false;
         return;
       }
 
       final data = await api.getPlaces(
-        lat:    position.latitude,
+        lat: 29.979235,
        
-        long: position.longitude, 
+        long: 31.134202,
       );
       print("pppppppppppppppppppp");
 
@@ -188,7 +186,7 @@ class HomeController extends GetxController {
             return true;
           }).toList() ??
           [];
-      viewedPlaces.value = allPlaces;
+        viewedPlaces.value = allPlaces;
 
       if (viewedPlaces.isEmpty) {
         final lastReq = await database.regionrequestdao.selectLastRequest();
