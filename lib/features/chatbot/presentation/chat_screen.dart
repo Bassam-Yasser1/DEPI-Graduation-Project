@@ -29,21 +29,34 @@ class ChatScreen extends GetView<ChatController> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 6),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.circle, size: 8, color: Colors.green),
-                  SizedBox(width: 4),
-                  Text(
-                    "Online",
-                    style: TextStyle(fontSize: 12, color: Colors.black),
-                  ),
-                ],
+            Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: controller.internert.value
+                      ? Colors.green.shade100
+                      : Colors.red.shade100,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.circle,
+                      size: 8,
+                      color: controller.internert.value
+                          ? Colors.green
+                          : Colors.red.shade900,
+
+                      // color: Get. ? Colors.green : Colors.red.shade700,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      controller.internert.value ? "Online" : "Offline",
+
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -71,8 +84,9 @@ class ChatScreen extends GetView<ChatController> {
                   color: Colors.black87,
                   fontSize: 16,
                 ),
-                inputBackgroundColor: AppColors.main,
-                inputTextColor: Colors.white,
+                // inputBackgroundColor: Color.fromARGB(255, 253, 234, 214),
+                inputBackgroundColor: Color(0xFFE9ECF1),
+                inputTextColor: Color.fromARGB(255, 0, 0, 0),
                 inputMargin: EdgeInsets.all(12),
                 inputBorderRadius: BorderRadius.all(Radius.circular(16)),
                 messageInsetsVertical: 16,

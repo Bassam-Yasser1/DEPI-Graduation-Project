@@ -1,3 +1,5 @@
+import 'package:Boslah/core/functions/has_internet.dart';
+import 'package:Boslah/core/functions/snack_bar.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../main.dart';
@@ -11,21 +13,23 @@ class ScheduleServiceSupabase {
 
   Future<void> createSchedule(ScheduleSupabase schedule) async {
     try {
-      await cloud
-          .from('schedules')
-          .insert(schedule.toMap())
-          .select()
-          .single();
+      if (await hasInternet()) {
+        await cloud
+            .from('schedules')
+            .insert(schedule.toMap())
+            .select()
+            .single();
 
-      // final id = inserted['schedule_id'] as int;
-      //!بص علي سطر 20
-      NotificationService.scheduleNotification(
-        id: schedule.notificationId!,
-        title: "Visit Reminder",
-        body: "You have a visit today!",
-        date: DateTime.parse(schedule.date), // DateTime
-        time: parseTime(schedule.hour), // TimeOfDay
-      );
+        NotificationService.scheduleNotification(
+          id: schedule.notificationId!,
+          title: "Visit Reminder",
+          body: "You have a visit today!",
+          date: DateTime.parse(schedule.date), // DateTime
+          time: parseTime(schedule.hour), // TimeOfDay
+        );
+      } else {
+        showSnackBar('Please Check Your Internet Connection');
+      }
     } on PostgrestException catch (e) {
       throw AppException(msg: e.message);
     } catch (e) {
@@ -36,9 +40,13 @@ class ScheduleServiceSupabase {
   /// Delete a schedule and cancel the alarm
   Future<void> deleteSchedule(int? scheduleId, int? notificationId) async {
     try {
-      await cloud.from('schedules').delete().eq('schedule_id', scheduleId!);
-      // Cancel the alarm
-      await AwesomeNotifications().cancel(notificationId!);
+      if (await hasInternet()) {
+        await cloud.from('schedules').delete().eq('schedule_id', scheduleId!);
+        // Cancel the alarm
+        await AwesomeNotifications().cancel(notificationId!);
+      } else {
+        showSnackBar('Please Check Your Internet Connection');
+      }
     } on PostgrestException catch (e) {
       throw AppException(msg: e.message);
     } catch (e) {
@@ -48,17 +56,24 @@ class ScheduleServiceSupabase {
 
   /// Mark a schedule as done
   Future<void> markAsDone(int scheduleId) async {
-    await cloud
-        .from('schedules')
-        .update({'is_done': true})
-        .eq('schedule_id', scheduleId);
-
-    // Optionally, cancel the alarm if you don't want notifications anymore
+    try {
+      if (await hasInternet()) {
+        await cloud
+            .from('schedules')
+            .update({'is_done': true})
+            .eq('schedule_id', scheduleId);
+      } else {
+        showSnackBar('Please Check Your Internet Connection');
+      }
+    } catch (e) {
+      showSnackBar(e.toString());
+    }
   }
 
   /// Fetch all schedules for the current user
   Future<List<ScheduleSupabase>> getSchedules(String userId) async {
     try {
+      
       print('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
       final data = await cloud
           .from('schedules')
@@ -77,17 +92,6 @@ class ScheduleServiceSupabase {
     }
   }
 
-  /// Fetch a single schedule by ID
-  Future<ScheduleSupabase> getScheduleById(int scheduleId) async {
-    final data = await cloud
-        .from('schedules')
-        .select()
-        .eq('schedule_id', scheduleId)
-        .maybeSingle();
-
-    // if (data == null);
-    return ScheduleSupabase.fromMap(data!);
-  }
 
   Future<int> getNotificationId(int scheduleId) async {
     final data = await cloud

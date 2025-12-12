@@ -1,9 +1,39 @@
+import 'dart:async';
+
+import 'package:Boslah/core/functions/has_internet.dart';
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import '../../../core/services/api_services/chatbot_service.dart';
 
 class ChatController extends GetxController {
+  var internert = true.obs;
+  Timer? connectionTimer;
+
+  void startConnectionListener() {
+    connectionTimer = Timer.periodic(const Duration(milliseconds: 500), (
+      timer,
+    ) async {
+      internert.value = await hasInternet();
+    });
+  }
+
+  void stopConnectionListener() {
+    connectionTimer?.cancel();
+  }
+
+  @override
+  void onInit() {
+    startConnectionListener();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    stopConnectionListener();
+    super.onClose();
+  }
+
   // Observable list للرسائل
   var messages = <types.Message>[].obs;
 
