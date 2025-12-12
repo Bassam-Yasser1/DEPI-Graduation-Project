@@ -108,10 +108,8 @@ class DetailsController extends GetxController {
       placeId: place.placeId,
       isDone: false,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-    );
-    await database.scheduledao.insertSchedule(sch);
-    await ScheduleServiceSupabase().createSchedule(
-      ScheduleSupabase(
+    );  await ScheduleServiceSupabase().createSchedule(
+     ScheduleSupabase(
         placeId: sch.placeId,
         date: sch.date,
         hour: sch.hour,
@@ -124,8 +122,11 @@ class DetailsController extends GetxController {
         name: sch.name,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         notificationId: newNotificationId,
+        scheduleId: sch.scheduleId
       ),
-    );
+    ); 
+    await database.scheduledao.insertSchedule(sch);
+   
     dateController.clear();
     noteController.clear();
     timeController.clear();

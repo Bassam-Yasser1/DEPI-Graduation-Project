@@ -1,12 +1,7 @@
 import 'package:Boslah/core/functions/is_dark.dart';
 import 'package:get/get.dart';
 
-import '../../../core/services/supabase_services/auth_service.dart';
-import '../../../main.dart';
-
 class ProfileController extends GetxController {
-  final AuthService _authService = AuthService();
-
   final fullName = ''.obs;
   final lightTheme = (!isDark()).obs;
   final isLoading = false.obs;
@@ -14,16 +9,7 @@ class ProfileController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    // await  loadUserName();
   }
-
-  // Future<void> loadUserName() async {
-  //   fullName.value = await _authService.getCurrentUserFullName();
-  //
-  //   print('----------------------------');
-  //   print(cloud.auth.currentUser!.userMetadata?['username']);
-  //   print('----------------------------');
-  // }
 
   String splitName(String name) {
     if (name.isEmpty) return "";

@@ -1,3 +1,4 @@
+import 'package:Boslah/core/errors/app_exception.dart';
 import 'package:Boslah/core/functions/snack_bar.dart';
 import 'package:Boslah/core/utilities/app_text_style.dart';
 import 'package:Boslah/core/widgets/app_button.dart';
@@ -64,7 +65,6 @@ class ScheduleForm extends StatelessWidget {
                     ],
                   ),
                   onPressed: () async {
-           
                     final picked = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
@@ -166,7 +166,6 @@ class ScheduleForm extends StatelessWidget {
                           );
 
                           if (pickedDateTime.isBefore(now)) {
-                   
                             showSnackBar(
                               "You cannot choose a past time for today. Please select another time.",
                             );
@@ -186,7 +185,7 @@ class ScheduleForm extends StatelessWidget {
               ),
             ],
           ),
-           Gap(50.h),
+          Gap(50.h),
           AppButton(
             onPressed: () async {
               if (controller.dateController.text.isEmpty ||
@@ -197,15 +196,19 @@ class ScheduleForm extends StatelessWidget {
                 showSnackBar('please fill Data and Time');
                 return;
               }
-              try {  Get.back();
+              try {
+                Get.back();
+
                 print('11111111111111111111111');
                 await controller.addSchdule();
-              
 
                 print('2222222222222222222222222');
                 showSnackBar('Schedule Added Successfully');
+              } on AppException catch (e) {
+                print('22222222222233332222222222222');
+
+                showSnackBar(e.msg);
               } catch (e) {
-                print('2222222222222222222222222');
                 Get.back();
 
                 showSnackBar(e.toString());
@@ -215,7 +218,7 @@ class ScheduleForm extends StatelessWidget {
             child: const Text('confirm', style: TextStyle(color: Colors.white)),
           ),
 
-           Gap(25.h),
+          Gap(25.h),
         ],
       ),
     );

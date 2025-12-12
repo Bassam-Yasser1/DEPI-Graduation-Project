@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 
 class MainController extends GetxController {
   final favControoller = Get.put(FavouritesController());
-  final scheduleController = Get.put(ScheduleController());
+  final scheduleController = Get.find<ScheduleController>();
   bool isFavPage = false;
   @override
   Future<void> onInit() async {
- 
+    await scheduleController.loadData();
     super.onInit();
   }
 
@@ -16,7 +16,7 @@ class MainController extends GetxController {
     if (isFavPage) {
       for (var place in favControoller.deleted) {
         print("object");
-       await favControoller.removeFavoriteFromDB(place);
+        await favControoller.removeFavoriteFromDB(place);
       }
     }
   }

@@ -102,12 +102,7 @@ class ScheduleController extends GetxController {
       isLoading.value=true;
       final userId = cloud.auth.currentUser!.id;
 
-      // localList.sort((a, b) {
-      //   final dtA = combineDateAndTime(a.date, a.hour);
-      //   final dtB = combineDateAndTime(b.date, b.hour);
-      //   log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
-      //   return dtA.compareTo(dtB);
-      // });
+  
       final hasInt = await hasInternet();
       if (hasInt) {
         final remote = await ScheduleServiceSupabase().getSchedules(userId);
