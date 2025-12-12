@@ -105,13 +105,13 @@ class DetailsView extends GetView<DetailsController> {
                 Row(
                   children: [
                     Text(
-                      'OpeningHours',
+                      'Opening Hours',
                       style: AppTextStyle.regular20.copyWith(
                         color: AppColors.main,
                       ),
                     ),
                     const SizedBox(width: 20),
-                    Text('9:00AM-11:00PM', style: AppTextStyle.regular18),
+                    Text('9:00AM - 11:00PM', style: AppTextStyle.regular18),
                   ],
                 ),
                 const Gap(18),

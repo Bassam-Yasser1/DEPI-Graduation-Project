@@ -30,7 +30,7 @@ class ScheduleView extends GetView<ScheduleController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Your Scheduling',
+                  'Your Schedules',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30.sp,
