@@ -82,7 +82,7 @@ class HomeView extends GetView<HomeController> {
                         'No data available',
                         style: AppTextStyle.bold26.copyWith(
                           color: const Color.fromARGB(147, 158, 158, 158),
-                          fontSize: 30.sp,
+                          fontSize: 28.sp,
                         ),
                       ),
                     ),
