@@ -8,7 +8,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosAirport
   /// assets/images/default_photos/airport.jpg
-  static const String imagesDefaultPhotosAirport = "assets/images/default_photos/airport.jpg";
+  static const String imagesDefaultPhotosAirport = "assets/images/default_photos/Airport.jpg";
 
   /// Assets for imagesDefaultPhotosBeach
   /// assets/images/default_photos/beach.jpg
@@ -28,7 +28,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosMeseum
   /// assets/images/default_photos/meseum.jpg
-  static const String imagesDefaultPhotosMeseum = "assets/images/default_photos/meseum.jpg";
+  static const String imagesDefaultPhotosMeseum = "assets/images/default_photos/Meseum.jpg";
 
   /// Assets for imagesDefaultPhotosNationalPark
   /// assets/images/default_photos/national_park.jpg
@@ -36,7 +36,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosNatural
   /// assets/images/default_photos/natural.jpg
-  static const String imagesDefaultPhotosNatural = "assets/images/default_photos/natural.jpg";
+  static const String imagesDefaultPhotosNatural = "assets/images/default_photos/Natural.jpg";
 
   /// Assets for imagesDefaultPhotosNoImageAvailable
   /// assets/images/default_photos/no_image_available.jpg
@@ -48,7 +48,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosRestaurant
   /// assets/images/default_photos/restaurant.jpg
-  static const String imagesDefaultPhotosRestaurant = "assets/images/default_photos/restaurant.jpg";
+  static const String imagesDefaultPhotosRestaurant = "assets/images/default_photos/Restaurant.jpg";
 
   /// Assets for imagesDefaultPhotosShoppingMall
   /// assets/images/default_photos/Shopping_mall.jpg
@@ -60,7 +60,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosTourism
   /// assets/images/default_photos/tourism.jpeg
-  static const String imagesDefaultPhotosTourism = "assets/images/default_photos/tourism.jpeg";
+  static const String imagesDefaultPhotosTourism = "assets/images/default_photos/tourism.jpg";
 
   /// Assets for imagesDefaultPhotosZoo
   /// assets/images/default_photos/Zoo.jpg
