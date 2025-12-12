@@ -15,6 +15,7 @@ class searchController extends GetxController {
 
   Future<void> loadData() async {
     final data = await api.searchPlacesWithImages(sController.text);
+
     searchList.value =
         data?.where((p) {
           if (p.image == null) {
@@ -50,7 +51,7 @@ class searchController extends GetxController {
     final data = await database.searchhistorydao.selectHistory(
       cloud.auth.currentUser!.id,
     );
-    historySearch.value = data ;
+    historySearch.value = data;
   }
 
   Future<void> clearHistory() async {

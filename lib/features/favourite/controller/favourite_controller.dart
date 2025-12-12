@@ -25,7 +25,7 @@ class FavouritesController extends GetxController {
       filterFavorites(sController.text);
     });
     try {
-     await loadData();
+      await loadData();
     } on AppException catch (e) {
       showSnackBar(e.msg);
     } on Exception catch (e) {
@@ -76,11 +76,10 @@ class FavouritesController extends GetxController {
       } else {
         final localList = await database.favoritedao.selectFavorites(userId);
 
-
         allFavourits.value = localList;
-      isFav.addAll(List.generate(allFavourits.length, (i) => true.obs));
+        isFav.addAll(List.generate(allFavourits.length, (i) => true.obs));
 
-      filteredFav.value = localList;
+        filteredFav.value = localList;
 
         throw AppException(msg: 'No internet Connection');
       }

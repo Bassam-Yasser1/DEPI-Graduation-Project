@@ -43,7 +43,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Gemini.init(apiKey: 'AIzaSyDudJChclladS_XBDkW3k1BBZLIoVwbSjU');
+  Gemini.init(apiKey: 'AIzaSyDL_eZ3PEVZBHFuAECItRn3eOlCnPBsah4');
 
   await CasheHelper().init();
   await SystemChrome.setPreferredOrientations([

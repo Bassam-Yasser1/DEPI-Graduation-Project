@@ -157,7 +157,6 @@ class HomeController extends GetxController {
         500,
       );
 
-
       if (nearbyRequest != null) {
         print("Using cached data from request ${nearbyRequest.region_id}");
 
@@ -172,9 +171,9 @@ class HomeController extends GetxController {
       }
 
       final data = await api.getPlaces(
-        lat: 29.979235,
-       
-        long: 31.134202,
+        lat: position.latitude,
+
+        long: position.longitude,
       );
       print("pppppppppppppppppppp");
 
@@ -186,7 +185,7 @@ class HomeController extends GetxController {
             return true;
           }).toList() ??
           [];
-        viewedPlaces.value = allPlaces;
+      viewedPlaces.value = allPlaces;
 
       if (viewedPlaces.isEmpty) {
         final lastReq = await database.regionrequestdao.selectLastRequest();
@@ -194,14 +193,14 @@ class HomeController extends GetxController {
         if (lastReq != null) {
           print("Loading last cached DB request...");
 
-          allPlaces.value = await database.regionplacedao
-              .selectRegionPlaces(lastReq.region_id!);
+          allPlaces.value = await database.regionplacedao.selectRegionPlaces(
+            lastReq.region_id!,
+          );
 
           viewedPlaces.value = List.from(allPlaces);
           return;
         }
       }
-
 
       if (viewedPlaces.isEmpty) {
         print("Using fallback: pyramids latitude/longitude");
@@ -211,12 +210,15 @@ class HomeController extends GetxController {
           long: 31.134202,
         );
 
-        allPlaces.value = fallbackData
-            ?.where((p) =>
-        p.desc != null &&
-            p.desc!.trim().isNotEmpty &&
-            p.image != null)
-            .toList() ??
+        allPlaces.value =
+            fallbackData
+                ?.where(
+                  (p) =>
+                      p.desc != null &&
+                      p.desc!.trim().isNotEmpty &&
+                      p.image != null,
+                )
+                .toList() ??
             [];
 
         viewedPlaces.value = List.from(allPlaces);
@@ -243,7 +245,6 @@ class HomeController extends GetxController {
         );
       }
       await database.regionplacedao.insertRespPlaces(list);
-
     } on AppException catch (e) {
       showSnackBar(e.msg);
     } on String catch (e) {
