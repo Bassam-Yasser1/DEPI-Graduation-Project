@@ -124,6 +124,10 @@ class PlaceModel {
       return Assets.imagesDefaultPhotosNatural;
     }
 
+    // if (categories.contains('tourism')) {
+    //   return Assets.imagesDefaultPhotosMeseum;
+    // }
+
     return Assets.imagesDefaultPhotosNoImageAvailable;
   }
 

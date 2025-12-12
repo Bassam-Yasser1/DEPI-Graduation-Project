@@ -11,15 +11,20 @@ class AuthService {
  
   Future<void> register(String fullName, String email, String password) async {
     try {
-      final response = await Supabase.instance.client.auth.signUp(
+      final response = await cloud.auth.signUp(
         email: email,
         password: password,
+        data: {
+          'username': fullName,
+        },
       );
+
+      await cloud.auth.refreshSession();
 
       final user = response.user;
 
       if (user != null) {
-        await Supabase.instance.client.from('profiles').insert({
+        await cloud.from('profiles').insert({
           'id': user.id,
           'full_name': fullName,
         });
