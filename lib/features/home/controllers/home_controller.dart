@@ -153,7 +153,7 @@ class HomeController extends GetxController {
       position = await getPosition();
       isLoading.value = true;
 
-      final nearbyRequest = await getNearbyRequest(position.latitude, position.longitude, 500);
+      final nearbyRequest = await getNearbyRequest(24.0889, 32.8998, 500);
 
       if (nearbyRequest != null) {
         print("Using cached data from request ${nearbyRequest.region_id}");
@@ -171,8 +171,8 @@ class HomeController extends GetxController {
 
 
       final data = await api.getPlaces(
-        lat: position.latitude,
-        long: position.longitude,
+        lat: 24.0889,
+        long: 32.8998,
       );
       print("pppppppppppppppppppp");
 
