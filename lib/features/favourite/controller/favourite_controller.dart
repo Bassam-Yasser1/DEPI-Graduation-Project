@@ -75,7 +75,11 @@ class FavouritesController extends GetxController {
         }
       } else {
         final localList = await database.favoritedao.selectFavorites(userId);
+
+
         allFavourits.value = localList;
+      isFav.addAll(List.generate(allFavourits.length, (i) => true.obs));
+
       filteredFav.value = localList;
 
         throw AppException(msg: 'No internet Connection');
