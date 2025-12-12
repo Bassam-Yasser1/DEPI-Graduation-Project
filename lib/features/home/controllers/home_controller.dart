@@ -60,7 +60,7 @@ class HomeController extends GetxController {
         },
       ),
       FilterModel(
-        text: 'Restaurants&cafe',
+        text: 'Restaurants & cafe',
         icon: Icons.restaurant_sharp,
         onTap: () {
           viewedPlaces.value = allPlaces
@@ -69,7 +69,7 @@ class HomeController extends GetxController {
         },
       ),
       FilterModel(
-        text: 'AirPort',
+        text: 'Airport',
         icon: Icons.airplanemode_active,
         onTap: () {
           viewedPlaces.value = allPlaces
@@ -78,7 +78,7 @@ class HomeController extends GetxController {
         },
       ),
       FilterModel(
-        text: 'religion',
+        text: 'Religion',
         icon: Icons.mosque,
         onTap: () {
           viewedPlaces.value = allPlaces
