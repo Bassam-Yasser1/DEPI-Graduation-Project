@@ -28,8 +28,12 @@ class SearchView extends GetView<searchController> {
                   },
                   controller: controller.sController,
                   onPressed: () {
+                    print(";;;;;;;;;");
                     if (controller.sController.text.isNotEmpty) {
+                      print(";;;;;;;;;");
+
                       controller.loadData();
+                      print(";;;;;;;;;");
                     }
                   },
                 ),
@@ -53,7 +57,7 @@ class SearchView extends GetView<searchController> {
                               Text('Recent Search', style: AppTextStyle.semiBold24.copyWith(color: Colors.white),),
                               TextButton.icon(onPressed: (){
                                   controller.clearHistory();
-                              }, label: Text('Clear all'),icon: Icon(Icons.delete),
+                              }, label: const Text('Clear all'),icon: const Icon(Icons.delete),
                               )
                             ],
                           ),
@@ -90,7 +94,10 @@ class SearchView extends GetView<searchController> {
                         Text('Result', style: AppTextStyle.semiBold24.copyWith(color: Colors.white),),
                         Gap(10.h),
                         controller.searchList.isEmpty
-                        ? const Center(child: Text('No place'))
+                        ?  Center(child: Text('No place',              style: AppTextStyle.bold26.copyWith(
+                                color: const Color.fromARGB(147, 158, 158, 158),
+                                fontSize: 30.sp,
+                              ),))
                             :
                         Expanded(
                           child: ListView.separated(
@@ -141,7 +148,7 @@ class PlaceCard extends GetView<searchController> {
                   ? Image.asset(
                       controller.searchList[index].image!,
                       width: double.infinity,
-                      height: 180,
+                      height: 180.h,
                       fit: BoxFit.fill,
                     )
                   : CachedNetworkImage(
@@ -150,6 +157,7 @@ class PlaceCard extends GetView<searchController> {
                 height: 180,
                 fit: BoxFit.fill,
               )
+                 
             ),
             const Gap(10),
             Padding(
