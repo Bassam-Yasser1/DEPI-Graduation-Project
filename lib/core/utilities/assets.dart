@@ -24,7 +24,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosCafe
   /// assets/images/default_photos/cafe.jpg
-  static const String imagesDefaultPhotosCafe = "assets/images/default_photos/cafe.jpg";
+  static const String imagesDefaultPhotosCafe = "assets/images/default_photos/Cafe.jpg";
 
   /// Assets for imagesDefaultPhotosEntertainment
   /// assets/images/default_photos/entertainment.jpg
@@ -60,7 +60,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosShoppingMall
   /// assets/images/default_photos/shopping_mall.jpg
-  static const String imagesDefaultPhotosShoppingMall = "assets/images/default_photos/shopping_mall.jpg";
+  static const String imagesDefaultPhotosShoppingMall = "assets/images/default_photos/Shopping_mall.jpg";
 
   /// Assets for imagesDefaultPhotosSport
   /// assets/images/default_photos/sport.jpg
@@ -72,7 +72,7 @@ class Assets {
 
   /// Assets for imagesDefaultPhotosZoo
   /// assets/images/default_photos/zoo.jpg
-  static const String imagesDefaultPhotosZoo = "assets/images/default_photos/zoo.jpg";
+  static const String imagesDefaultPhotosZoo = "assets/images/default_photos/Zoo.jpg";
   static const String databaseAsset = "assets/database/tourAppDB.db";
 
   /// Assets for imagesLogo
